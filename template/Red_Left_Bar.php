@@ -1,0 +1,59 @@
+<?php
+$BodyBkgd = "#F8DADA";
+$BodyText = "#1D0505";
+$AnchorLink = "#C62424";
+$AnchorHover = "#1D0505";
+$HighlightText = "#E77E7E";
+$HeaderColor = "#C62424";
+$AccentColor = "#C62424";
+$SaleColor = "#FF0000";
+$LineColor = "";
+$ProductLink = "#C62424";
+$ProductHover = "#1D0505";
+$PageLink = "#1D0505";
+$PageHover = "#E77E7E";
+$FeatureLink = "#C62424";
+$FeatureHover = "#1D0505";
+$EmailLink = "#C62424";
+$EmailHover = "#1D0505";
+$RelatedLink = "#C62424";
+$RelatedHover = "#1D0505";
+$PopupLink = "#C62424";
+$PopupHover = "#1D0505";
+$DrillDownLink = "#C62424";
+$DrillDownHover = "#1D0505";
+$CartLink = "#1D0505";
+$CartHover = "#E77E7E";
+$CategoryLink = "#1D0505";
+$CategoryHover = "#E77E7E";
+$SubCatLink = "#1D0505";
+$SubCatHover = "#E77E7E";
+$EndCatLink = "#1D0505";
+$EndCatHover = "#E77E7E";
+$FormButtonText = "#1D0505";
+$FormButtonBkgd = "#C62424";
+$FormButtonBorder = "#1D0505";
+$CatButtonText = "#C62424";
+$CatButtonBkgd = "#E7E2E2";
+$CatButtonBorder = "#C62424";
+$CatActiveText = "#C62424";
+$CatActiveBkgd = "#E7E2E2";
+$CatHoverText = "#C62424";
+$CatHoverBkgd = "#E7E2E2";
+
+// Optional: enter image paths relative to the main URL, 
+// without initial slash. ie.) "images/logo.gif")
+$Logo = "";
+$OrderButton = "";
+$SearchButton = "";
+$CartButton = "";
+$RegistryButton = "";
+$NewHeader = "";
+$FeaturedHeader = "";
+$SaleHeader = "";
+$AllHeader = "";
+$NewNavigation = "";
+$FeaturedNavigation = "";
+$SaleNavigation = "";
+$AllNavigation = "";
+?>
