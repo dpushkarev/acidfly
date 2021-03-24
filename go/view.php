@@ -12,10 +12,10 @@ require_once("../stconfig.php");
 <?php
 // Sets System Variables
 $varquery = "SELECT URL FROM " .$DB_Prefix ."_vars";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-if (mysql_num_rows($varresult) == 1)
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select your system variables. Try again later.");
+if (mysqli_num_rows($varresult) == 1)
 {
-$varrow = mysql_fetch_row($varresult);
+$varrow = mysqli_fetch_row($varresult);
 $URL="http://" .$varrow[0];
 }
 

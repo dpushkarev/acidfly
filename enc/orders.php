@@ -8,10 +8,10 @@ if ($orderemail)
 {
 $ordquery = "SELECT OrderNumber, Status, TrackingNumber, ShipDate FROM " .$DB_Prefix ."_orders WHERE ";
 $ordquery .= "Email='$orderemail' ORDER BY OrderDate DESC, OrderNumber DESC LIMIT 1";
-$ordresult = mysql_query($ordquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($ordresult) == 1)
+$ordresult = mysqli_query($dblink, $ordquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($ordresult) == 1)
 {
-$ordrow = mysql_fetch_row($ordresult);
+$ordrow = mysqli_fetch_row($ordresult);
 $ordnum = $ordrow[0];
 $ordlink = "$urldir/orders.$pageext";
 if ($ordrow[3] != 0)
@@ -89,8 +89,8 @@ echo "<p align=\"center\" class=\"salecolor\">Please enter your email address an
 else
 {
 $chkquery = "SELECT ID, Status FROM " .$DB_Prefix ."_orders WHERE Email='$orderemail' AND OrderNumber='$ordernumber'";
-$chkresult = mysql_query($chkquery, $dblink) or die ("Unable to select. Try again later.");
-$chknum = mysql_num_rows($chkresult);
+$chkresult = mysqli_query($dblink, $chkquery) or die ("Unable to select. Try again later.");
+$chknum = mysqli_num_rows($chkresult);
 if ($chknum == 0)
 {
 $mode = "error";
@@ -101,8 +101,8 @@ else
 $ordquery = "SELECT OrderNumber, OrderDate, Total, InvState, InvCountry, ";
 $ordquery .= "ShipState, ShipCountry, Status, TrackingNumber, ShipDate FROM ";
 $ordquery .= "" .$DB_Prefix ."_orders WHERE Email='$orderemail' AND Status != 'Completed'";
-$ordresult = mysql_query($ordquery, $dblink) or die ("Unable to select. Try again later.");
-$ordnum = mysql_num_rows($ordresult);
+$ordresult = mysqli_query($dblink, $ordquery) or die ("Unable to select. Try again later.");
+$ordnum = mysqli_num_rows($ordresult);
 if ($ordnum == 0)
 {
 echo "<p>All of your orders have already been processed. If you have any questions ";
@@ -111,7 +111,7 @@ echo "about any order, please contact us for assistance.</p>";
 else if ($ordnum == 1)
 {
 $mode = "ord";
-$ordrow = mysql_fetch_row($ordresult);
+$ordrow = mysqli_fetch_row($ordresult);
 $ordid = $ordrow[0];
 $showback = "no";
 }
@@ -125,7 +125,7 @@ echo "<td align=\"center\" class=\"accent\">Order Date</td>";
 echo "<td align=\"center\" class=\"accent\">Total Cost</td>";
 echo "<td align=\"center\" class=\"accent\">Order Status</td>";
 echo "</tr>";
-while ($ordrow = mysql_fetch_array($ordresult))
+while ($ordrow = mysqli_fetch_array($ordresult))
 {
 if ($ordrow[ShipState])
 $state = stripslashes($ordrow[ShipState]);
@@ -177,8 +177,8 @@ echo "</table>";
 if ($mode == "ord")
 {
 $ordquery = "SELECT * FROM " .$DB_Prefix ."_orders WHERE OrderNumber='$ordid'";
-$ordresult = mysql_query($ordquery, $dblink) or die ("Unable to view sales.");
-$ordrow = mysql_fetch_array($ordresult);
+$ordresult = mysqli_query($dblink, $ordquery) or die ("Unable to view sales.");
+$ordrow = mysqli_fetch_array($ordresult);
 if ($ordrow[OrderDate] > 0)
 {
 $splitdate = explode("-","$ordrow[OrderDate]");
@@ -350,8 +350,8 @@ echo "<hr class=\"#000000\">";
 </tr>
 <?php
 $salequery = "SELECT * FROM " .$DB_Prefix ."_sales WHERE OrderNumber='$ordid'";
-$saleresult = mysql_query($salequery, $dblink) or die ("Unable to select. Try again later.");
-for ($sr=1; $salerow = mysql_fetch_array($saleresult); ++$sr)
+$saleresult = mysqli_query($dblink, $salequery) or die ("Unable to select. Try again later.");
+for ($sr=1; $salerow = mysqli_fetch_array($saleresult); ++$sr)
 {
 $quantity = (float)$salerow[Quantity];
 $item = str_replace('"', "&quot;", stripslashes($salerow[Item]));

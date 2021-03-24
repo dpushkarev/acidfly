@@ -161,8 +161,8 @@ function btnOKClick() {
 <?php
 require_once("../../../stconfig.php");
 $dirquery = "SELECT ImageDir FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$dirresult = mysql_query($dirquery, $dblink) or die ("Unable to select. Try again later.");
-$dirrow = mysql_fetch_row($dirresult);
+$dirresult = mysqli_query($dblink, $dirquery) or die ("Unable to select. Try again later.");
+$dirrow = mysqli_fetch_row($dirresult);
 $imgdir = $dirrow[0];
 ?>
 

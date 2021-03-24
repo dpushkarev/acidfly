@@ -11,13 +11,13 @@ include("open.php");
 if ($ordid)
 {
 $ordquery = "SELECT * FROM " .$DB_Prefix ."_orders WHERE OrderNumber='$ordid'";
-$ordresult = mysql_query($ordquery, $dblink) or die ("Unable to select. Try again later.");
-$ordnum = mysql_num_rows($ordresult);
+$ordresult = mysqli_query($dblink, $ordquery) or die ("Unable to select. Try again later.");
+$ordnum = mysqli_num_rows($ordresult);
 }
 
 if ($ordnum == 1)
 {
-$ordrow = mysql_fetch_array($ordresult);
+$ordrow = mysqli_fetch_array($ordresult);
 $invname = stripslashes($ordrow[InvName]);
 $invcompany = stripslashes($ordrow[InvCompany]);
 $invaddress = stripslashes($ordrow[InvAddress]);

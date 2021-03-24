@@ -10,9 +10,9 @@ $pagequery .= "AND LinkGroup LIKE '%$pggrp%' ";
 if ($show_home == "no")
 $pagequery .= "AND PageName <> 'index' ";
 $pagequery .= "ORDER BY LinkOrder, PageTitle";
-$pageresult = mysql_query($pagequery, $dblink) or die ("Unable to access database.");
+$pageresult = mysqli_query($dblink, $pagequery) or die ("Unable to access database.");
 
-for ($p=1; $pagerow = mysql_fetch_row($pageresult); ++$p)
+for ($p=1; $pagerow = mysqli_fetch_row($pageresult); ++$p)
 {
 // Show break after first entry
 if ($p > 1)

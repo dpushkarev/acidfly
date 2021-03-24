@@ -25,10 +25,10 @@ $linkinfo .= "&limitofsales=$limitofsales";
 
 // Get currency
 $varquery = "SELECT Currency FROM " .$DB_Prefix ."_vars";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-if (mysql_num_rows($varresult) == 1)
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select your system variables. Try again later.");
+if (mysqli_num_rows($varresult) == 1)
 {
-$varrow = mysql_fetch_row($varresult);
+$varrow = mysqli_fetch_row($varresult);
 $Currency="$varrow[0]";
 }
 
@@ -51,13 +51,13 @@ $additem .= ": " .addslash_mq($options);
 if ($saleid)
 {
 $updquery = "UPDATE " .$DB_Prefix ."_sales SET Quantity='$quantity', Item='$additem', Price='$price', Units='$units', DateSold='$solddate' WHERE ID='$saleid'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 // Add new record
 else
 {
 $insquery = "INSERT INTO " .$DB_Prefix ."_sales (Quantity, Item, Price, Units, DateSold) VALUES ('$quantity', '$additem', '$price', '$units', '$solddate')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 }
 }
 
@@ -65,7 +65,7 @@ $insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try a
 if ($Submit == "Yes" AND $saleid)
 {
 $delquery = "DELETE FROM " .$DB_Prefix ."_sales WHERE ID='$saleid'";
-$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 }
 
 // Show check delete form
@@ -112,8 +112,8 @@ else if (($mode == "updsales" AND $saleid) OR $mode == "Add New Sale")
 if ($saleid)
 {
 $salesquery = "SELECT * FROM " .$DB_Prefix ."_sales WHERE ID='$saleid'";
-$salesresult = mysql_query($salesquery, $dblink) or die ("Unable to view sales.");
-$salesrow = mysql_fetch_array($salesresult);
+$salesresult = mysqli_query($dblink, $salesquery) or die ("Unable to view sales.");
+$salesrow = mysqli_fetch_array($salesresult);
 if ($salesrow[DateSold] > 0)
 {
 $splitdate = explode("-","$salesrow[DateSold]");
@@ -200,7 +200,7 @@ if (!$numsales)
 $numsales = 50;
 $salesquery = "SELECT Item, SUM(Quantity)AS SumQty, MAX(Price) AS MaxPrice, MAX(DateSold) AS MaxDate FROM " .$DB_Prefix ."_sales GROUP BY Item";
 $salesquery .= " ORDER BY SumQty DESC, Item DESC LIMIT $numsales";
-$salesresult = mysql_query($salesquery, $dblink) or die ("Unable to view sales.");
+$salesresult = mysqli_query($dblink, $salesquery) or die ("Unable to view sales.");
 ?>
 
 <div align="center">
@@ -216,7 +216,7 @@ $salesresult = mysql_query($salesquery, $dblink) or die ("Unable to view sales."
 <td align="center" class="accent">Last Date Sold</td>
 </tr>
 <?php
-while ($salesrow = mysql_fetch_array($salesresult))
+while ($salesrow = mysqli_fetch_array($salesresult))
 {
 $maxdate = $salesrow[MaxDate];
 
@@ -294,12 +294,12 @@ $totalsalesquery = $salesquery;
 
 // Total number of records in this particular page
 $salesquery .= " LIMIT $offset, $limitofsales";
-$salesresult = mysql_query($salesquery, $dblink) or die ("Unable to view sales.");
-$salesnum = mysql_num_rows($salesresult);
+$salesresult = mysqli_query($dblink, $salesquery) or die ("Unable to view sales.");
+$salesnum = mysqli_num_rows($salesresult);
 
 // Total records altogether
-$totalsalesresult = mysql_query($totalsalesquery, $dblink) or die ("Unable to view sales.");
-$totalsalesnum = mysql_num_rows($totalsalesresult);
+$totalsalesresult = mysqli_query($dblink, $totalsalesquery) or die ("Unable to view sales.");
+$totalsalesnum = mysqli_num_rows($totalsalesresult);
 
 // Display Page Numbers on page
 $offset = ($page-1)*$limitofsales;
@@ -406,7 +406,7 @@ echo "Sales Between $stmonth $startyear and $enmonth $endyear</p>";
 <td align="center" class="fieldname">Action</td>
 </tr>
 <?php
-for ($i = 1; $salesrow = mysql_fetch_array($salesresult); ++$i)
+for ($i = 1; $salesrow = mysqli_fetch_array($salesresult); ++$i)
 {
 $splitdate = explode("-","$salesrow[DateSold]");
 $datesold = date("n/j/y", mktime(0,0,0,$splitdate[1],$splitdate[2],$splitdate[0]));

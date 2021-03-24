@@ -44,15 +44,15 @@ $updquery .= "ShipToAddress='$addshipaddress', ShipToCity='$addshipcity', ";
 $updquery .= "ShipToState='$addshipstate', ShipToZip='$shiptozip', ";
 $updquery .= "ShipToCountry='$addshipcountry', EventDate='$dateofevent', ";
 $updquery .= "Type='$regtype' WHERE ID='$registry_id'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 }
 
 $getquery = "SELECT * FROM " .$DB_Prefix ."_registry WHERE ID='$regrow[0]'";
-$getresult = mysql_query($getquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($getresult) == 1)
+$getresult = mysqli_query($dblink, $getquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($getresult) == 1)
 {
-$getrow = mysql_fetch_array($getresult);
+$getrow = mysqli_fetch_array($getresult);
 $regemail = $getrow[Email];
 $regname1 = str_replace('"', "&quot;", stripslashes($getrow[RegName1]));
 $regname2 = str_replace('"', "&quot;", stripslashes($getrow[RegName2]));

@@ -7,10 +7,10 @@
 require_once("../stconfig.php");
 // Sets System Variables
 $varquery = "SELECT * FROM " .$DB_Prefix ."_vars";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-if (mysql_num_rows($varresult) == 1)
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select your system variables. Try again later.");
+if (mysqli_num_rows($varresult) == 1)
 {
-$varrow = mysql_fetch_array($varresult);
+$varrow = mysqli_fetch_array($varresult);
 $Site_Name=stripslashes($varrow[SiteName]);
 $Catalog_Page=$varrow[CatalogPage];
 $Admin_Email=$varrow[AdminEmail];
@@ -41,16 +41,16 @@ else
 {
 // Compare to input var
 $chquery = "SELECT * FROM " .$DB_Prefix ."_check WHERE CheckVar='$_POST[checkvar]' AND DateTime>'$starttime'";
-$chresult = mysql_query($chquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($chresult) == 0)
+$chresult = mysqli_query($dblink, $chquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($chresult) == 0)
 die ("<p>Sorry, but the form has timed out or has already been processed.</p>");
 else
 {
 if ($_POST[item])
 {
 $itemquery = "SELECT Item FROM " .$DB_Prefix ."_items WHERE ID='$_POST[item]'";
-$itemresult = mysql_query($itemquery, $dblink) or die ("Unable to select your item. Try again later.");
-$itemrow = mysql_fetch_row($itemresult);
+$itemresult = mysqli_query($dblink, $itemquery) or die ("Unable to select your item. Try again later.");
+$itemrow = mysqli_fetch_row($itemresult);
 $urlname = stripslashes($itemrow[0]);
 $urladdress = $urldir ."/" .$Catalog_Page ."?item=" .$item;
 }
@@ -60,8 +60,8 @@ $emailpage = str_replace(".$pageext", "", $_POST[page]);
 $pagequery = "SELECT PageTitle FROM " .$DB_Prefix ."_pages WHERE PageName='$emailpage'";
 if ($dir)
 $pagequery .= " AND PageType='additional'";
-$pageresult = mysql_query($pagequery, $dblink) or die ("Unable to select your page. Try again later.");
-$pagerow = mysql_fetch_row($pageresult);
+$pageresult = mysqli_query($dblink, $pagequery) or die ("Unable to select your page. Try again later.");
+$pagerow = mysqli_fetch_row($pageresult);
 $urlname = stripslashes($pagerow[0]);
 if ($dir)
 $urladdress = $urldir ."/" .$dir ."/" .$page;
@@ -106,7 +106,7 @@ $urladdress$addl", "From: $fromemail\r\nReply-To: $fromemail");
 }
 
 $delquery = "DELETE FROM " .$DB_Prefix ."_check WHERE CheckVar='$_POST[checkvar]' AND DateTime>'$starttime'";
-$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 
 echo "<p align=\"center\">You just sent the following page information to $to_name$toemail:</p>";
 echo "<p align=\"center\"><span class=\"boldtext\">";
@@ -132,7 +132,7 @@ $rc .= mt_rand(1,9);
 $rc .= chr(mt_rand(97,122));
 $checkvar = md5($rc);
 $insquery = "INSERT INTO " .$DB_Prefix ."_check (IPAddress, CheckVar) VALUES ('$ipaddress', '$checkvar')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 ?>
 <form method="POST" name="emailform" action="email.php" onSubmit="return validateComplete(document.emailform);">
 <div align="center">

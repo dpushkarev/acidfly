@@ -15,15 +15,15 @@ $featquery = "SELECT * FROM " .$DB_Prefix ."_items WHERE Featured='Yes' AND Acti
 if (!$wspass AND !$wsemail AND $wsnum != 1)
 $featquery .= " AND WSOnly = 'No'";
 $featquery .= " ORDER BY DateEdited LIMIT 5";
-$featresult = mysql_query($featquery, $dblink) or die ("Unable to select. Try again later.");
-$featnum = mysql_num_rows($featresult);
+$featresult = mysqli_query($dblink, $featquery) or die ("Unable to select. Try again later.");
+$featnum = mysqli_num_rows($featresult);
 if ($featnum == 0)
 {
 $featquery = "SELECT * FROM " .$DB_Prefix ."_items WHERE Active='Yes' ORDER BY DateEdited LIMIT 5";
-$featresult = mysql_query($featquery, $dblink) or die ("Unable to select. Try again later.");
+$featresult = mysqli_query($dblink, $featquery) or die ("Unable to select. Try again later.");
 }
 
-while ($featrow = mysql_fetch_array($featresult))
+while ($featrow = mysqli_fetch_array($featresult))
 {
 $featitem = stripslashes($featrow[Item]);
 $linktoitem = "$Catalog_Page?item=$featrow[ID]";

@@ -3,8 +3,8 @@ if (file_exists("openinfo.php"))
 die("Cannot access file directly.");
 
 $categoryquery = "SELECT Category, Image, ID FROM " .$DB_Prefix ."_categories WHERE Parent = '' AND Active = 'Yes' ORDER BY CatOrder, Category";
-$categoryresult = mysql_query($categoryquery, $dblink) or die ("Unable to access database.");
-for ($count = 1; $catrow = mysql_fetch_row($categoryresult); ++$count)
+$categoryresult = mysqli_query($dblink, $categoryquery) or die ("Unable to access database.");
+for ($count = 1; $catrow = mysqli_fetch_row($categoryresult); ++$count)
 {
 $stripcat = stripslashes($catrow[0]);
 $catname = str_replace(" ","&nbsp;",$stripcat);
@@ -114,8 +114,8 @@ echo " | <a href=\"$gotofeat\" class=\"catcolor\" nowrap>Featured Items</a>";
 
 // ADD SALES ITEM LINK
 $salequery = "SELECT ID FROM " .$DB_Prefix ."_items WHERE SalePrice <> '0'";
-$saleresult = mysql_query($salequery, $dblink) or die ("Unable to access database.");
-if (mysql_num_rows($saleresult) != 0 AND $Sales_Product_Link == "Yes")
+$saleresult = mysqli_query($dblink, $salequery) or die ("Unable to access database.");
+if (mysqli_num_rows($saleresult) != 0 AND $Sales_Product_Link == "Yes")
 {
 $gotosale = "$Catalog_Page?sale=yes";
 if (substr_count($salenavimg, "~") == 1)

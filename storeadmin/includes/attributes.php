@@ -12,8 +12,8 @@ $maxattributes = 10;
 include("open.php");
 
 $varquery = "SELECT Currency FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select. Try again later.");
-$varrow = mysql_fetch_row($varresult);
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select. Try again later.");
+$varrow = mysqli_fetch_row($varresult);
 $currency = $varrow[0];
 
 // After posting
@@ -40,8 +40,8 @@ echo "<p align=\"center\"><b>$optname</b></p>";
 echo "<table align=\"center\" border=\"0\" cellpadding=\"3\" cellspacing=\"0\">";
 for ($i = 0; $i <= $maxattributes; ++$i)
 {
-$optname = str_replace('"', "”", $optname);
-$optname = str_replace("'", "’", $optname);
+$optname = str_replace('"', "ï¿½", $optname);
+$optname = str_replace("'", "ï¿½", $optname);
 $optname = str_replace(":", "", $optname);
 $optname = str_replace("~", "", $optname);
 $optname = str_replace("#", "", $optname);
@@ -50,8 +50,8 @@ $optname = str_replace("{/b}", "", $optname);
 $optname = str_replace("{br}", "", $optname);
 $optname = str_replace(" - ", "-", $optname);
 $attnameval = "${"attname$i"}";
-$attnameval = str_replace('"', "”", $attnameval);
-$attnameval = str_replace("'", "’", $attnameval);
+$attnameval = str_replace('"', "ï¿½", $attnameval);
+$attnameval = str_replace("'", "ï¿½", $attnameval);
 $attnameval = str_replace(":", "", $attnameval);
 $attnameval = str_replace("~", "", $attnameval);
 $attnameval = str_replace("#", "", $attnameval);
@@ -97,8 +97,8 @@ else
 if ($id)
 {
 $optquery = "SELECT Attributes, Name FROM " .$DB_Prefix ."_options WHERE ID='$id'";
-$optresult = mysql_query($optquery, $dblink) or die ("Unable to select. Try again later.");
-$optrow = mysql_fetch_row($optresult);
+$optresult = mysqli_query($dblink, $optquery) or die ("Unable to select. Try again later.");
+$optrow = mysqli_fetch_row($optresult);
 $attributes = $optrow[0];
 $optname = $optrow[1];
 }

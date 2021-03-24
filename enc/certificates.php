@@ -3,13 +3,13 @@ if (file_exists("openinfo.php"))
 die("Cannot access file directly.");
 
 $curquery = "SELECT Currency FROM " .$DB_Prefix ."_vars WHERE ID='1'";
-$curresult = mysql_query($curquery, $dblink) or die ("Unable to select. Try again later.");
-$currow = mysql_fetch_row($curresult);
+$curresult = mysqli_query($dblink, $curquery) or die ("Unable to select. Try again later.");
+$currow = mysqli_fetch_row($curresult);
 $currency = $currow[0];
 
 $gcquery = "SELECT * FROM " .$DB_Prefix ."_certificates";
-$gcresult = mysql_query($gcquery, $dblink) or die ("Unable to select. Try again later.");
-$gcrow = mysql_fetch_array($gcresult);
+$gcresult = mysqli_query($dblink, $gcquery) or die ("Unable to select. Try again later.");
+$gcrow = mysqli_fetch_array($gcresult);
 $amount1 = $gcrow[Amount1];
 $amount2 = $gcrow[Amount2];
 $amount3 = $gcrow[Amount3];

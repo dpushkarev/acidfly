@@ -25,8 +25,8 @@ window.close();
 
 // Sets Load Directories
 $varquery = "SELECT ThumbnailDir, LgImageDir, CatImageDir, ImageDir FROM " .$DB_Prefix ."_vars";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to get image directories.");
-$varrow = mysql_fetch_array($varresult);
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to get image directories.");
+$varrow = mysqli_fetch_array($varresult);
 
 if (substr($fieldsname, 0, 7) == "smimage")
 $imagedir = $varrow[ThumbnailDir];

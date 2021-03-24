@@ -14,7 +14,7 @@ if ($Product_Line)
 echo "class=\"linetable\" ";
 echo "width=\"100%\">";
 // Display one item
-for ($scount = 1; $searchrow = mysql_fetch_array($searchresult), $scount <= $totscount; ++$scount)
+for ($scount = 1; $searchrow = mysqli_fetch_array($searchresult), $scount <= $totscount; ++$scount)
 {
 if ($Item_Columns == 0)
 {

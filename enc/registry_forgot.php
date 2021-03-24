@@ -5,11 +5,11 @@ die("Cannot access file directly.");
 if ($fmode == "submitted")
 {
 $emquery = "SELECT RegUser, RegPass FROM " .$DB_Prefix ."_registry WHERE Email='$regemail'";
-$emresult = mysql_query($emquery, $dblink) or die ("Unable to select. Try again later.");
-$emnum = mysql_num_rows($emresult);
+$emresult = mysqli_query($dblink, $emquery) or die ("Unable to select. Try again later.");
+$emnum = mysqli_num_rows($emresult);
 if (isset($regemail) AND $emnum == 1)
 {
-$emrow = mysql_fetch_row($emresult);
+$emrow = mysqli_fetch_row($emresult);
 $webpage = $URL ."/" .$setpg;
 $regmsg = "You can log into our gift registry at $webpage, using the following information:\r\n\r\n";
 $regmsg .= "User Name: $emrow[0]\r\n";

@@ -20,20 +20,20 @@ $article = addslash_mq($article);
 if ($artid)
 {
 $updquery = "UPDATE " .$DB_Prefix ."_articles SET Title='$title', Article='$article' WHERE ID='$artid'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 // Add New Record
 else
 {
 $cntquery = "SELECT ListOrder FROM " .$DB_Prefix ."_articles ORDER BY ListOrder DESC LIMIT 1";
-$cntresult = mysql_query($cntquery, $dblink) or die ("Unable to select. Try again later.");
-$cntrow = mysql_fetch_row($cntresult);
-if (mysql_num_rows($cntresult) == 0)
+$cntresult = mysqli_query($dblink, $cntquery) or die ("Unable to select. Try again later.");
+$cntrow = mysqli_fetch_row($cntresult);
+if (mysqli_num_rows($cntresult) == 0)
 $listorder = 1;
 else
 $listorder = $cntrow[0]+1;
 $insquery = "INSERT INTO " .$DB_Prefix ."_articles (Title, Article, ListOrder) VALUES ('$title', '$article', '$listorder')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 }
 }
 
@@ -41,30 +41,30 @@ $insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try a
 if ($mode == "Yes")
 {
 $cntquery = "SELECT ListOrder FROM " .$DB_Prefix ."_articles ORDER BY ListOrder DESC LIMIT 1";
-$cntresult = mysql_query($cntquery, $dblink) or die ("Unable to select. Try again later.");
-$cntrow = mysql_fetch_row($cntresult);
-$cntnum = mysql_num_rows($cntresult);
+$cntresult = mysqli_query($dblink, $cntquery) or die ("Unable to select. Try again later.");
+$cntrow = mysqli_fetch_row($cntresult);
+$cntnum = mysqli_num_rows($cntresult);
 if ($cntnum > 0)
 {
 if ($cntrow[0] != $ord)
 {
 $upd1query = "UPDATE " .$DB_Prefix ."_articles SET ListOrder='$ord' WHERE ListOrder='$cntrow[0]'";
-$upd1result = mysql_query($upd1query, $dblink) or die("Unable to update. Please try again later.");
+$upd1result = mysqli_query($dblink, $upd1query) or die("Unable to update. Please try again later.");
 $upd2query = "UPDATE " .$DB_Prefix ."_articles SET ListOrder='$cntrow[0]' WHERE ID='$artid'";
-$upd2result = mysql_query($upd2query, $dblink) or die("Unable to update. Please try again later.");
+$upd2result = mysqli_query($dblink, $upd2query) or die("Unable to update. Please try again later.");
 }
 }
 $delquery = "DELETE FROM " .$DB_Prefix ."_articles WHERE ID='$artid'";
-$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 }
 
 // Update List Order
 if ($artid AND $curord AND $neword)
 {
 $upd1query = "UPDATE " .$DB_Prefix ."_articles SET ListOrder='$curord' WHERE ListOrder='$neword'";
-$upd1result = mysql_query($upd1query, $dblink) or die("Unable to update. Please try again later.");
+$upd1result = mysqli_query($dblink, $upd1query) or die("Unable to update. Please try again later.");
 $upd2query = "UPDATE " .$DB_Prefix ."_articles SET ListOrder='$neword' WHERE ID='$artid'";
-$upd2result = mysql_query($upd2query, $dblink) or die("Unable to update. Please try again later.");
+$upd2result = mysqli_query($dblink, $upd2query) or die("Unable to update. Please try again later.");
 }
 
 // Show Add/Edit Form
@@ -73,8 +73,8 @@ if ($mode == "Add" OR $mode == "Edit")
 if ($artid)
 {
 $artquery = "SELECT * FROM " .$DB_Prefix ."_articles WHERE ID = '$artid'";
-$artresult = mysql_query($artquery, $dblink) or die ("Unable to select. Try again later.");
-$artrow = mysql_fetch_array($artresult);
+$artresult = mysqli_query($dblink, $artquery) or die ("Unable to select. Try again later.");
+$artrow = mysqli_fetch_array($artresult);
 $title = str_replace('"', "&quot;", stripslashes($artrow[Title]));
 $article = stripslashes($artrow[Article]);
 }
@@ -149,19 +149,19 @@ $setpg_upper = ucfirst($setpg_lower);
 if ($submit == "Activate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='Yes' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 if ($submit == "Deactivate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='No' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 
 $getquery = "SELECT ID, Active FROM " .$DB_Prefix ."_pages WHERE PageName='$setpg_lower' AND PageType='optional'";
-$getresult = mysql_query($getquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($getresult) == 1)
+$getresult = mysqli_query($dblink, $getquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($getresult) == 1)
 {
-$getrow = mysql_fetch_row($getresult);
+$getrow = mysqli_fetch_row($getresult);
 $pgid = $getrow[0];
 $setactive = $getrow[1];
 }
@@ -172,8 +172,8 @@ if ($setactive == "Yes")
 {
 
 $artquery = "SELECT ID, Title, ListOrder FROM " .$DB_Prefix ."_articles ORDER BY ListOrder";
-$artresult = mysql_query($artquery, $dblink) or die ("Unable to select. Try again later.");
-$artnum = mysql_num_rows($artresult);
+$artresult = mysqli_query($dblink, $artquery) or die ("Unable to select. Try again later.");
+$artnum = mysqli_num_rows($artresult);
 ?>
 
 <form method="POST" action="articles.php">
@@ -204,7 +204,7 @@ else
 <td>&nbsp;</td>
 </tr>
 <?php
-for ($i = 1; $artrow = mysql_fetch_array($artresult); ++$i)
+for ($i = 1; $artrow = mysqli_fetch_array($artresult); ++$i)
 {
 echo "<tr>";
 echo "<td valign=\"top\" align=\"left\" width=\"100%\">";

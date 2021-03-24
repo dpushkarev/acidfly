@@ -25,11 +25,11 @@ if ($mode == "gc")
 <td valign="middle" align="left">
 <?php
 $chkquery = "SELECT * FROM " .$DB_Prefix ."_certificates";
-$chkresult = mysql_query($chkquery, $dblink) or die ("Unable to select. Try again later.");
-$chknum = mysql_num_rows($chkresult);
+$chkresult = mysqli_query($dblink, $chkquery) or die ("Unable to select. Try again later.");
+$chknum = mysqli_num_rows($chkresult);
 if ($chknum == 1)
 {
-$chkrow = mysql_fetch_array($chkresult);
+$chkrow = mysqli_fetch_array($chkresult);
 $amt[1] = $chkrow[Amount1];
 $amt[2] = $chkrow[Amount2];
 $amt[3] = $chkrow[Amount3];
@@ -77,8 +77,8 @@ echo "then come here to update your Mals-E cart.";
 <td>
 <?php
 $malsquery = "SELECT MalsCart FROM " .$DB_Prefix ."_vars";
-$malsresult = mysql_query($malsquery, $dblink) or die ("Unable to select your cart. Try again later.");
-$malsrow = mysql_fetch_row($malsresult);
+$malsresult = mysqli_query($dblink, $malsquery) or die ("Unable to select your cart. Try again later.");
+$malsrow = mysqli_fetch_row($malsresult);
 $malselink = "https://secure.aitsafe.com/admin/users/index.htm?username=$malsrow[0]";
 echo "<iframe src=\"$malselink\" width=\"500\" height=\"500\" frameborder=\"1\" scroll=\"auto\">";
 echo "<p align=\"center\">Go to your <a href=\"$malselink\" target=\"_blank\">Mals-E Cart</a>.</p>";

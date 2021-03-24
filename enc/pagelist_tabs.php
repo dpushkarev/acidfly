@@ -10,12 +10,12 @@ $pagequery .= "AND LinkGroup LIKE '%$pggrp%' ";
 if ($show_home == "no")
 $pagequery .= "AND PageName <> 'index' ";
 $pagequery .= "ORDER BY LinkOrder, PageTitle";
-$pageresult = mysql_query($pagequery, $dblink) or die ("Unable to access database.");
-$pagenum = mysql_num_rows($pageresult);
+$pageresult = mysqli_query($dblink, $pagequery) or die ("Unable to access database.");
+$pagenum = mysqli_num_rows($pageresult);
 $cl_wdth = intval(100/$pagenum);
 echo "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">";
 echo "<tr>";
-for ($p=1; $pagerow = mysql_fetch_row($pageresult); ++$p)
+for ($p=1; $pagerow = mysqli_fetch_row($pageresult); ++$p)
 {
 // Show page link
 $pg_title = stripslashes($pagerow[1]);

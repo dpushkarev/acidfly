@@ -14,11 +14,11 @@ $offset = (($LimitOfItems * $page)-$LimitOfItems);
 $getlinkquery = "SELECT * FROM " .$DB_Prefix ."_links WHERE Active='Yes' ORDER BY LinkOrder, LinkName";
 $totallinkquery = $getlinkquery;
 $getlinkquery .= " LIMIT $offset, $LimitOfItems";
-$getlinkresult = mysql_query($getlinkquery, $dblink) or die ("Could not show links. Try again later.");
-$totallinkresult = mysql_query($totallinkquery, $dblink) or die ("Unable to access total records.");
-$totallinknum = mysql_num_rows($totallinkresult);
+$getlinkresult = mysqli_query($dblink, $getlinkquery) or die ("Could not show links. Try again later.");
+$totallinkresult = mysqli_query($dblink, $totallinkquery) or die ("Unable to access total records.");
+$totallinknum = mysqli_num_rows($totallinkresult);
 
-if (mysql_num_rows($getlinkresult) > 0)
+if (mysqli_num_rows($getlinkresult) > 0)
 {
 // START FORMATTING OF PAGE NUMBERS
 $offset = ($page-1)*$LimitOfItems;
@@ -90,7 +90,7 @@ echo "</p>";
 }
 // END DISPLAY OF PAGE NUMBERS
 
-while ($getlinkrow = mysql_fetch_array($getlinkresult))
+while ($getlinkrow = mysqli_fetch_array($getlinkresult))
 {
 if ($Product_Line)
 echo "<hr class=\"linecolor\">";

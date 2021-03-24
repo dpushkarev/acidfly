@@ -14,7 +14,7 @@ echo "<td align=\"left\" valign=\"top\" class=\"accent\">Price</td>";
 echo "<td>&nbsp;</td>";
 echo "</tr>";
 // Display items
-while ($searchrow = mysql_fetch_array($searchresult))
+while ($searchrow = mysqli_fetch_array($searchresult))
 {
 $stripitem = stripslashes($searchrow[2]);
 $stripitem = str_replace("\"", "&quot;", $stripitem);

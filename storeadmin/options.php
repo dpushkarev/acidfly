@@ -1,8 +1,8 @@
 <script language="php">
 include("includes/open.php");
 $pgextquery = "SELECT PageExt FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$pgextresult = mysql_query($pgextquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-$pgextrow = mysql_fetch_row($pgextresult);
+$pgextresult = mysqli_query($dblink, $pgextquery) or die ("Unable to select your system variables. Try again later.");
+$pgextrow = mysqli_fetch_row($pgextresult);
 $pageext = $pgextrow[0];
 
 if ($action == "continue")
@@ -68,8 +68,8 @@ $insitemquery .= "'$category1', '$category2', '$category3', '$category4', '$cate
 $insitemquery .= "'$addkeywords', '$discountpr', '$wholesale', '$addmetatitle', '$wsonly', ";
 $insitemquery .= "'$featured', '$editdate', '$popuppg', '$smimage2', '$lgimage2', '$smimage3', ";
 $insitemquery .= "'$lgimage3', '$taxpercent', '$itemcost')";
-$insitemresult = mysql_query($insitemquery, $dblink) or die("Unable to add your item. Please try again later.");
-$itemid = mysql_insert_id();
+$insitemresult = mysqli_query($dblink, $insitemquery) or die("Unable to add your item. Please try again later.");
+$itemid = mysqli_insert_id();
 }
 else
 {
@@ -83,7 +83,7 @@ $upditemquery .= "Featured='$featured', DateEdited='$editdate', PopUpPg='$popupp
 $upditemquery .= "SmImage2='$smimage2', LgImage2='$lgimage2', SmImage3='$smimage3', ";
 $upditemquery .= "LgImage3='$lgimage3', WSOnly='$wsonly', MetaTitle='$addmetatitle', ";
 $upditemquery .= "TaxPercent='$taxpercent', ItemCost='$itemcost' WHERE ID='$itemid'";
-$upditemresult = mysql_query($upditemquery, $dblink) or die("Unable to edit your item. Please try again later.");
+$upditemresult = mysqli_query($dblink, $upditemquery) or die("Unable to edit your item. Please try again later.");
 }
 
 $itemname = str_replace("\"", "&quot;", $stripitem);
@@ -93,18 +93,18 @@ $itemname = str_replace("\"", "&quot;", $stripitem);
 else if ($itemid)
 {
 $itemquery = "SELECT Item FROM " .$DB_Prefix ."_items WHERE ID='$itemid'";
-$itemresult = mysql_query($itemquery, $dblink) or die ("Unable to select this item. Try again later.");
-$itemrow = mysql_fetch_row($itemresult);
+$itemresult = mysqli_query($dblink, $itemquery) or die ("Unable to select this item. Try again later.");
+$itemrow = mysqli_fetch_row($itemresult);
 $itemname = str_replace("\"", "&quot;", stripslashes($itemrow[0]));
 }
 }
 
 // Sets Option Number
 $varquery = "SELECT OptionNumber, Currency FROM " .$DB_Prefix ."_vars";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-if (mysql_num_rows($varresult) == 1)
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select your system variables. Try again later.");
+if (mysqli_num_rows($varresult) == 1)
 {
-$varrow = mysql_fetch_row($varresult);
+$varrow = mysqli_fetch_row($varresult);
 $Option_Number=$varrow[0];
 $currency=$varrow[1];
 }
@@ -152,10 +152,10 @@ $outputpage = "items.php";
 if ($Set AND $itemid)
 {
 $query = "SELECT Item FROM " .$DB_Prefix ."_items WHERE ID = $itemid";
-$result = mysql_query($query, $dblink) or die("Could not select options.");
-if (mysql_num_rows($result) == 1)
+$result = mysqli_query($dblink, $query) or die("Could not select options.");
+if (mysqli_num_rows($result) == 1)
 {
-$row = mysql_fetch_row($result);
+$row = mysqli_fetch_row($result);
 $defitemname = stripslashes($row[0]);
 }
 }
@@ -195,11 +195,11 @@ echo "<i>(Back to Item List)</i></a></p>";
 
 <?php
 $getdefquery = "SELECT DefaultProduct FROM " .$DB_Prefix ."_vars WHERE DefaultProduct <> 0";
-$getdefresult = mysql_query($getdefquery, $dblink) or die ("Unable to select. Try again later.");
-$getdefnum = mysql_num_rows($getdefresult);
+$getdefresult = mysqli_query($dblink, $getdefquery) or die ("Unable to select. Try again later.");
+$getdefnum = mysqli_num_rows($getdefresult);
 if ($getdefnum == 1)
 {
-$getdefrow = mysql_fetch_row($getdefresult);
+$getdefrow = mysqli_fetch_row($getdefresult);
 $getdefid = $getdefrow[0];
 // Show default links
 if ($itemmode == "AddItem")
@@ -246,9 +246,9 @@ $getoptquery .= "WHERE ItemID = $getdefid ";
 else
 $getoptquery .= "WHERE ItemID = $itemid ";
 $getoptquery .= "ORDER BY OptionNum";
-$getoptresult = mysql_query($getoptquery, $dblink) or die("Could not select options.");
-$getoptnum = mysql_num_rows($getoptresult);
-for ($getoptcount = 1; $getoptrow = mysql_fetch_row($getoptresult),$getoptcount <= $Option_Number; ++$getoptcount)
+$getoptresult = mysqli_query($dblink, $getoptquery) or die("Could not select options.");
+$getoptnum = mysqli_num_rows($getoptresult);
+for ($getoptcount = 1; $getoptrow = mysqli_fetch_row($getoptresult),$getoptcount <= $Option_Number; ++$getoptcount)
 {
 echo "<tr>
 <td valign=\"top\" align=\"left\" colspan=\"4\">

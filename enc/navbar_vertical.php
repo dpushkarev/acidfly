@@ -13,8 +13,8 @@ $baralign = "<br>";
 
 // Display main categories
 $categoryquery = "SELECT Category, Image, ID FROM " .$DB_Prefix ."_categories WHERE Parent = '' AND Active = 'Yes' ORDER BY CatOrder, Category";
-$categoryresult = mysql_query($categoryquery, $dblink) or die ("Unable to access database.");
-for ($count = 1; $catrow = mysql_fetch_row($categoryresult); ++$count)
+$categoryresult = mysqli_query($dblink, $categoryquery) or die ("Unable to access database.");
+for ($count = 1; $catrow = mysqli_fetch_row($categoryresult); ++$count)
 {
 if ($count != 1)
 echo "$baralign";
@@ -22,8 +22,8 @@ echo "$baralign";
 $catname = str_replace(" ","&nbsp;",stripslashes($catrow[0]));
 // Get total subcategory numbers
 $subcatquery = "SELECT Category, Image, ID FROM " .$DB_Prefix ."_categories WHERE Parent = '$catrow[2]' AND Active = 'Yes' ORDER BY CatOrder, Category";
-$subcatresult = mysql_query($subcatquery, $dblink) or die ("Unable to access database.");
-$subcatnum = mysql_num_rows($subcatresult);
+$subcatresult = mysqli_query($dblink, $subcatquery) or die ("Unable to access database.");
+$subcatnum = mysqli_num_rows($subcatresult);
 
 $gotocat = "$Catalog_Page?category=$catrow[2]";
 
@@ -60,16 +60,16 @@ echo "<a href=\"$gotocat\" class=\"catcolor\" nowrap>$catname</a>";
 if ($navtype == "expanded" AND $category)
 {
 $parentquery = "SELECT Parent FROM " .$DB_Prefix ."_categories WHERE ID='$category'";
-$parentresult = mysql_query($parentquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($parentresult) == 1)
+$parentresult = mysqli_query($dblink, $parentquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($parentresult) == 1)
 {
-$parentrow = mysql_fetch_row($parentresult);
+$parentrow = mysqli_fetch_row($parentresult);
 $parentid = $parentrow[0];
 $grandparentquery = "SELECT Parent FROM " .$DB_Prefix ."_categories WHERE ID='$parentid'";
-$grandparentresult = mysql_query($grandparentquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($grandparentresult) == 1)
+$grandparentresult = mysqli_query($dblink, $grandparentquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($grandparentresult) == 1)
 {
-$grandparentrow = mysql_fetch_row($grandparentresult);
+$grandparentrow = mysqli_fetch_row($grandparentresult);
 $grandparentid = $grandparentrow[0];
 }
 else
@@ -80,14 +80,14 @@ $grandparentid = 0;
 // Loop through subcats
 if ($navtype == "subcategories" OR ($navtype == "expanded" AND $category > 0 AND ($catrow[2] == $category OR $catrow[2] == $parentid OR $catrow[2] == $grandparentid)))
 {
-for ($subcount = 1; $subcatrow = mysql_fetch_row($subcatresult); ++$subcount)
+for ($subcount = 1; $subcatrow = mysqli_fetch_row($subcatresult); ++$subcount)
 {
 $subcatname = str_replace(" ","&nbsp;",stripslashes($subcatrow[0]));
 echo "$baralign";
 // Get total end category numbers
 $endcatquery = "SELECT Category, Image, ID FROM " .$DB_Prefix ."_categories WHERE Parent = '$subcatrow[2]' AND Active = 'Yes' ORDER BY CatOrder, Category";
-$endcatresult = mysql_query($endcatquery, $dblink) or die ("Unable to access database.");
-$endcatnum = mysql_num_rows($endcatresult);
+$endcatresult = mysqli_query($dblink, $endcatquery) or die ("Unable to access database.");
+$endcatnum = mysqli_num_rows($endcatresult);
 
 $gotocat = "$Catalog_Page?category=$subcatrow[2]";
  
@@ -118,12 +118,12 @@ $imgurl = "$URL/$subcatrow[1]";
 echo "<img src=\"$imgurl\" border=\"0\" alt=\"$subcatname\"></a>";
 }
 else
-echo "• <a href=\"$gotocat\" class=\"small\" nowrap>$subcatname</a> •";
+echo "ï¿½ <a href=\"$gotocat\" class=\"small\" nowrap>$subcatname</a> ï¿½";
 
 // Loop through endcats
 if ($navtype == "subcategories" OR ($navtype == "expanded" AND $category > 0 AND ($subcatrow[2] == $category OR $subcatrow[2] == $parentid)))
 {
-for ($endcount = 1; $endcatrow = mysql_fetch_row($endcatresult); ++$endcount)
+for ($endcount = 1; $endcatrow = mysqli_fetch_row($endcatresult); ++$endcount)
 {
 $endcatname = str_replace(" ","&nbsp;", stripslashes($endcatrow[0]));
 echo "$baralign";
@@ -236,8 +236,8 @@ echo "<a href=\"$gotofeat\" class=\"catcolor\" nowrap>Featured Items</a>";
 
 // ADD SALES ITEM LINK
 $salequery = "SELECT ID FROM " .$DB_Prefix ."_items WHERE SalePrice <> '0'";
-$saleresult = mysql_query($salequery, $dblink) or die ("Unable to access database.");
-if (mysql_num_rows($saleresult) != 0 AND $Sales_Product_Link == "Yes")
+$saleresult = mysqli_query($dblink, $salequery) or die ("Unable to access database.");
+if (mysqli_num_rows($saleresult) != 0 AND $Sales_Product_Link == "Yes")
 {
 $gotosale = "$Catalog_Page?sale=yes";
 echo "$baralign";

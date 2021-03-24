@@ -19,8 +19,8 @@ $addhidden .= "<input type=\"hidden\" name=\"ov$i\" value=\"${"ov$i"}\">";
 
 // CHECK USER NAME AND PASSWORD FOR REGISTRY
 $regquery = "SELECT ID FROM " .$DB_Prefix ."_registry WHERE RegUser='$rguser' AND RegPass='$rgpass'";
-$regresult = mysql_query($regquery, $dblink) or die ("Unable to select. Try again later.");
-$regnum = mysql_num_rows($regresult);
+$regresult = mysqli_query($dblink, $regquery) or die ("Unable to select. Try again later.");
+$regnum = mysqli_num_rows($regresult);
 
 // REGISTRY USER IS LOGGED IN
 if (isset($rguser) AND isset($rgpass))
@@ -28,7 +28,7 @@ if (isset($rguser) AND isset($rgpass))
 	// USER LOGGED IN CORRECTLY
 	if ($regnum == 1)
 	{
-	$regrow = mysql_fetch_row($regresult);
+	$regrow = mysqli_fetch_row($regresult);
 
 		// PRODUCT EXISTS - ADD
 		if ($pid > 0 and $md == "a")
@@ -40,8 +40,8 @@ if (isset($rguser) AND isset($rgpass))
 		$optval = ${"ov$i"};
 		// Find this position in the options
 		$optquery = "SELECT Name, Attributes FROM " .$DB_Prefix ."_options WHERE ItemID='$pid' AND OptionNum='$i'";
-		$optresult = mysql_query($optquery, $dblink) or die ("Unable to select. Try again later.");
-		$optrow = mysql_fetch_row($optresult);
+		$optresult = mysqli_query($dblink, $optquery) or die ("Unable to select. Try again later.");
+		$optrow = mysqli_fetch_row($optresult);
 		$expatts = explode("~", $optrow[1]);
 		for ($a=0; $a < count($expatts); ++$a)
 		{
@@ -58,19 +58,19 @@ if (isset($rguser) AND isset($rgpass))
 		// Check for duplicates
 		$chkquery = "SELECT ID FROM " .$DB_Prefix ."_reglist WHERE RegistryID='$regrow[0]' ";
 		$chkquery .= "AND ProductID='$pid' AND Options='$options'";
-		$chkresult = mysql_query($chkquery, $dblink) or die ("Unable to select. Try again later.");
-		$chknum = mysql_num_rows($chkresult);
+		$chkresult = mysqli_query($dblink, $chkquery) or die ("Unable to select. Try again later.");
+		$chknum = mysqli_num_rows($chkresult);
 		if ($chknum == 0)
 		{
 		$insquery = "INSERT INTO " .$DB_Prefix ."_reglist (RegistryID, ProductID, Options, QtyWanted, QtyReceived, ";
 		$insquery .= "DateAdded) VALUES ('$regrow[0]', '$pid', '$options', '$q', '0', '$dateadded')";
-		$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+		$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 		}
 		else
 		{
 		$updquery = "UPDATE " .$DB_Prefix ."_reglist SET QtyWanted=QtyWanted+$q, DateAdded='$dateadded' ";
 		$updquery .= "WHERE RegistryID='$regrow[0]' AND ProductID='$pid' AND Options='$options'";
-		$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+		$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 		}
 		}
 
@@ -78,21 +78,21 @@ if (isset($rguser) AND isset($rgpass))
 		else if ($pid > 0 and $md == "d")
 		{
 		$delquery = "DELETE FROM " .$DB_Prefix ."_reglist WHERE ID='$pid'";
-		$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+		$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 		}
 		
 		// INCREASE QUANTITY WANTED
 		else if ($pid > 0 and $md == "iw")
 		{
 		$updquery = "UPDATE " .$DB_Prefix ."_reglist SET QtyWanted=QtyWanted+1 WHERE ID='$pid'";
-		$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+		$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 		}
 		
 		// DECREASE QUANTITY WANTED
 		else if ($pid > 0 and $md == "dw")
 		{
 		$updquery = "UPDATE " .$DB_Prefix ."_reglist SET QtyWanted=QtyWanted-1 WHERE ID='$pid' AND QtyWanted > 1";
-		$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+		$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 		}
 		
 		// SHOW LIST WITH EDIT AND DELETE CAPABILITIES
@@ -156,8 +156,8 @@ else
 
 // CHECK TO SEE IF USER EXISTS
 $usrquery = "SELECT * FROM " .$DB_Prefix ."_registry WHERE RegUser='$rguser' AND ID='$rgid'";
-$usrresult = mysql_query($usrquery, $dblink) or die ("Unable to select. Try again later.");
-$usrnum = mysql_num_rows($usrresult);
+$usrresult = mysqli_query($dblink, $usrquery) or die ("Unable to select. Try again later.");
+$usrnum = mysqli_num_rows($usrresult);
 
 	// PUBLIC LIST
 	if ($usrnum == 1)

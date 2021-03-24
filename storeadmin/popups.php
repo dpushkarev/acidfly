@@ -20,12 +20,12 @@ $popupcontent = addslash_mq($popupcontent);
 if ($popupid)
 {
 $updquery = "UPDATE " .$DB_Prefix ."_popups SET PageTitle='$pagetitle', Content='$popupcontent' WHERE ID='$popupid'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 else
 {
 $insquery = "INSERT INTO " .$DB_Prefix ."_popups (PageTitle, Content) VALUES ('$pagetitle', '$popupcontent')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 }
 }
 
@@ -33,9 +33,9 @@ $insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try a
 if ($popup == "Yes" AND $popupid)
 {
 $delquery = "DELETE FROM " .$DB_Prefix ."_popups WHERE ID='$popupid'";
-$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 $updquery = "UPDATE " .$DB_Prefix ."_items SET PopUpPg='' WHERE PopUpPg='$popuppg'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 
 // Start tables
@@ -44,10 +44,10 @@ if ($popup == "Add" OR $popup == "Edit")
 if ($popup == "Edit" AND $popupid)
 {
 $getpgquery = "SELECT * FROM " .$DB_Prefix ."_popups WHERE ID='$popupid'";
-$getpgresult = mysql_query($getpgquery, $dblink) or die ("Unable to select popups. Try again later.");
-if (mysql_num_rows($getpgresult) == 1)
+$getpgresult = mysqli_query($dblink, $getpgquery) or die ("Unable to select popups. Try again later.");
+if (mysqli_num_rows($getpgresult) == 1)
 {
-$getpgrow = mysql_fetch_array($getpgresult);
+$getpgrow = mysqli_fetch_array($getpgresult);
 $pagetitle = $getpgrow[PageTitle];
 $popupcontent = stripslashes($getpgrow[Content]);
 }
@@ -106,11 +106,11 @@ echo "<input type=\"hidden\" value=\"$popupid\" name=\"popupid\">";
 else if ($popup == "Delete" AND $popupid)
 {
 $getpgquery = "SELECT PageTitle FROM " .$DB_Prefix ."_popups WHERE ID='$popupid'";
-$getpgresult = mysql_query($getpgquery, $dblink) or die ("Unable to delete. Try again later.");
-$getpgnum = mysql_num_rows($getpgresult);
+$getpgresult = mysqli_query($dblink, $getpgquery) or die ("Unable to delete. Try again later.");
+$getpgnum = mysqli_num_rows($getpgresult);
 if ($getpgnum == 1)
 {
-$getpgrow = mysql_fetch_array($getpgresult);
+$getpgrow = mysqli_fetch_array($getpgresult);
 $pgname = stripslashes($getpgrow[PageTitle]);
 }
 ?>
@@ -160,8 +160,8 @@ descriptions, you can add that page in this area, then select the page in your i
 </tr>
 <?php
 $popupquery = "SELECT ID, PageTitle FROM " .$DB_Prefix ."_popups ORDER BY PageTitle";
-$popupresult = mysql_query($popupquery, $dblink) or die ("Unable to select. Try again later.");
-$popupnum = mysql_num_rows($popupresult);
+$popupresult = mysqli_query($dblink, $popupquery) or die ("Unable to select. Try again later.");
+$popupnum = mysqli_num_rows($popupresult);
 if ($popupnum == 0)
 echo "<tr><td align=\"center\" colspan=\"2\"><i>There are no pop up pages in your system.</i></td></tr>";
 else
@@ -170,7 +170,7 @@ echo "<tr>";
 echo "<td align=\"right\" width=\"50%\">Pop-up Page:</td>";
 echo "<td align=\"left\" width=\"50%\">";
 echo "<select size=\"1\" name=\"popupid\">";
-for ($p=1; $popuprow = mysql_fetch_row($popupresult); ++$p)
+for ($p=1; $popuprow = mysqli_fetch_row($popupresult); ++$p)
 {
 echo "<option ";
 if ($p == 1)

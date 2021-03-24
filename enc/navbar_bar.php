@@ -3,15 +3,15 @@ if (file_exists("openinfo.php"))
 die("Cannot access file directly.");
 
 $categoryquery = "SELECT Category, Image, ID FROM " .$DB_Prefix ."_categories WHERE Parent = '' AND Active <> 'No' ORDER BY CatOrder, Category";
-$categoryresult = mysql_query($categoryquery, $dblink) or die ("Unable to access database.");
-$categorynum = mysql_num_rows($categoryresult);
+$categoryresult = mysqli_query($dblink, $categoryquery) or die ("Unable to access database.");
+$categorynum = mysqli_num_rows($categoryresult);
 $salequery = "SELECT ID FROM " .$DB_Prefix ."_items WHERE SalePrice <> '0'";
-$saleresult = mysql_query($salequery, $dblink) or die ("Unable to access database.");
+$saleresult = mysqli_query($dblink, $salequery) or die ("Unable to access database.");
 if ($New_Product_Link == "Yes")
 ++ $categorynum;
 if ($Featured_Product_Link == "Yes")
 ++ $categorynum;
-if (mysql_num_rows($saleresult) != 0 AND $Sales_Product_Link == "Yes")
+if (mysqli_num_rows($saleresult) != 0 AND $Sales_Product_Link == "Yes")
 ++ $categorynum;
 if ($All_Product_Link == "Yes")
 ++ $categorynum;
@@ -21,7 +21,7 @@ if ($categorynum > 0)
 $cl_wdth = intval(100/$categorynum);
 echo "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" class=\"bar\">";
 echo "<tr>";
-for ($count = 1; $catrow = mysql_fetch_row($categoryresult); ++$count)
+for ($count = 1; $catrow = mysqli_fetch_row($categoryresult); ++$count)
 {
 $stripcat = stripslashes($catrow[0]);
 $catname = str_replace(" ","&nbsp;",$stripcat);
@@ -60,7 +60,7 @@ echo "</td>";
 }
 
 // ADD SALES ITEM LINK
-if (mysql_num_rows($saleresult) != 0 AND $Sales_Product_Link == "Yes")
+if (mysqli_num_rows($saleresult) != 0 AND $Sales_Product_Link == "Yes")
 {
 if ($sale == "yes")
 $salebarstyle = "baractive";

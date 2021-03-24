@@ -1,51 +1,48 @@
 <?php
 if ($Product_Line)
-$frmbord = 1;
+    $frmbord = 1;
 else
-$frmbord = 0;
+    $frmbord = 0;
 
 // First check to see if the return link is a catalog link
 if (substr($return, 0, 7) == "http://")
-$catret = $return;
+    $catret = $return;
 else
-$catret = "http://" .$return;
+    $catret = "http://" . $return;
 if (substr($catret, 0, strlen($URL)) == $URL)
-$retlink = $catret;
+    $retlink = $catret;
 else
-$retlink = $Catalog_Page;
+    $retlink = $Catalog_Page;
 echo "<p align=\"center\" style=\"margin: 0\"><a href=\"$retlink\">Continue Shopping</a></p>";
 
 // Ship to address exist for gift registry?
-if (isset($rgid) AND isset($rguser) AND !isset($rgpass))
-{
-$usrquery = "SELECT * FROM " .$DB_Prefix ."_registry WHERE RegUser='$rguser' AND ID='$rgid' AND Type='Public'";
-$usrresult = mysql_query($usrquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($usrresult) == 1)
-{
-$usrrow = mysql_fetch_array($usrresult);
-$name1 = stripslashes($usrrow[RegName1]);
-if ($usrrow[ShipToCity] AND ($usrrow[ShipToState] OR $usrrow[ShipToCountry]))
-{
-$shipto = stripslashes($usrrow[ShipToName]);
-$address = stripslashes($usrrow[ShipToAddress]);
-$city = stripslashes($usrrow[ShipToCity]);
-$state = stripslashes($usrrow[ShipToState]);
-if ($usrrow[ShipToCountry] != "United States")
-$country = stripslashes($usrrow[ShipToCountry]);
-$zip = $usrrow[ShipToZip];
-echo "<p align=\"center\">";
-echo "<span class=\"accent\">Use Shipping Address:</span>";
-if ($shipto)
-echo "<br>$shipto";
-if ($address)
-echo "<br>$address";
-if ($city AND $state AND $zip)
-echo "<br>$city, $state $zip $country";
-else
-echo "<br>$state $zip $country";
-echo "</p>";
-}
-}
+if (isset($rgid) AND isset($rguser) AND !isset($rgpass)) {
+    $usrquery = "SELECT * FROM " . $DB_Prefix . "_registry WHERE RegUser='$rguser' AND ID='$rgid' AND Type='Public'";
+    $usrresult = mysqli_query($dblink, $usrquery) or die ("Unable to select. Try again later.");
+    if (mysqli_num_rows($usrresult) == 1) {
+        $usrrow = mysqli_fetch_array($usrresult);
+        $name1 = stripslashes($usrrow[RegName1]);
+        if ($usrrow[ShipToCity] AND ($usrrow[ShipToState] OR $usrrow[ShipToCountry])) {
+            $shipto = stripslashes($usrrow[ShipToName]);
+            $address = stripslashes($usrrow[ShipToAddress]);
+            $city = stripslashes($usrrow[ShipToCity]);
+            $state = stripslashes($usrrow[ShipToState]);
+            if ($usrrow[ShipToCountry] != "United States")
+                $country = stripslashes($usrrow[ShipToCountry]);
+            $zip = $usrrow[ShipToZip];
+            echo "<p align=\"center\">";
+            echo "<span class=\"accent\">Use Shipping Address:</span>";
+            if ($shipto)
+                echo "<br>$shipto";
+            if ($address)
+                echo "<br>$address";
+            if ($city AND $state AND $zip)
+                echo "<br>$city, $state $zip $country";
+            else
+                echo "<br>$state $zip $country";
+            echo "</p>";
+        }
+    }
 }
 
 echo "<iframe src=\"$gotolink\" width=\"100%\" height=\"1200\" frameborder=\"$frmbord\" scrolling=\"auto\">";

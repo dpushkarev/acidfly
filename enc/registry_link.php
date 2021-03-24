@@ -6,10 +6,10 @@ die("Cannot access file directly.");
 if ($regnum == 1)
 {
 $getquery = "SELECT ID, RegUser FROM " .$DB_Prefix ."_registry WHERE ID='$regrow[0]'";
-$getresult = mysql_query($getquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($getresult) == 1)
+$getresult = mysqli_query($dblink, $getquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($getresult) == 1)
 {
-$getrow = mysql_fetch_array($getresult);
+$getrow = mysqli_fetch_array($getresult);
 $reg_link = "$urldir/registry.$pageext?rgid=$getrow[0]&rguser=$getrow[1]";
 echo "<p>If you wish to send your friends or family a link to your registry ";
 echo "so they can purchase gifts for you, use the following link:</p>";

@@ -12,11 +12,11 @@ $lkquery = "SELECT * FROM " .$DB_Prefix ."_permissions WHERE ";
 if ($set_master_key == "no")
 $lkquery .= "GivePermission = 'Yes' AND ";
 $lkquery .= "SiteGroup = '$linkset' ORDER BY ID";
-$lkresult = mysql_query($lkquery, $dblink) or die ("Unable to select links.");
-if (mysql_num_rows($lkresult) > 0)
+$lkresult = mysqli_query($dblink,$lkquery) or die ("Unable to select links.");
+if (mysqli_num_rows($lkresult) > 0)
 {
 echo "<p><b>$linkset</b>";
-for ($lk=1; $lkrow = mysql_fetch_array($lkresult); ++$lk)
+for ($lk=1; $lkrow = mysqli_fetch_array($lkresult); ++$lk)
 {
 $featurename = str_replace(" ", "&nbsp;", stripslashes($lkrow[Feature]));
 if ($setpg == $lkrow[SetPg])

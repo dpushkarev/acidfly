@@ -12,8 +12,8 @@ include("includes/header.htm");
 include("includes/links.php");
 
 $malsquery = "SELECT MalsCart FROM " .$DB_Prefix ."_vars WHERE ID='1'";
-$malsresult = mysql_query($malsquery, $dblink) or die ("Unable to select. Try again later.");
-$malsrow = mysql_fetch_row($malsresult);
+$malsresult = mysqli_query($dblink, $malsquery) or die ("Unable to select. Try again later.");
+$malsrow = mysqli_fetch_row($malsresult);
 $malsid = $malsrow[0];
 
 $setpg_lower = "affiliates";
@@ -22,19 +22,19 @@ $setpg_upper = ucfirst($setpg_lower);
 if ($submit == "Activate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='Yes' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 if ($submit == "Deactivate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='No' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 
 $getquery = "SELECT ID, Active FROM " .$DB_Prefix ."_pages WHERE PageName='$setpg_lower' AND PageType='optional'";
-$getresult = mysql_query($getquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($getresult) == 1)
+$getresult = mysqli_query($dblink, $getquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($getresult) == 1)
 {
-$getrow = mysql_fetch_row($getresult);
+$getrow = mysqli_fetch_row($getresult);
 $pgid = $getrow[0];
 $setactive = $getrow[1];
 }

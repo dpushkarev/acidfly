@@ -7,12 +7,12 @@
 <script language="php">
 require_once("../../../stconfig.php");
 $pswdquery = "SELECT AdminPass, OpenSet, URL FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$pswdresult = mysql_query($pswdquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-$pswdnum = mysql_num_rows($pswdresult);
+$pswdresult = mysqli_query($dblink, $pswdquery) or die ("Unable to select your system variables. Try again later.");
+$pswdnum = mysqli_num_rows($pswdresult);
 if ($pswdnum == 1)
 {
 // Check for correct password
-$pswdrow = mysql_fetch_row($pswdresult);
+$pswdrow = mysqli_fetch_row($pswdresult);
 if ($_COOKIE['adminpswd'] != $pswdrow[0] OR $_COOKIE['adminusr'] != $Admin_User)
 die("File Not Found");
 }

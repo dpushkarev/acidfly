@@ -11,8 +11,8 @@
 include("includes/open.php");
 
 $showquery = "SELECT SubGroup, GivePermission FROM " .$DB_Prefix ."_permissions WHERE SetPg='$setpg' AND SubGroup<>''";
-$showresult = mysql_query($showquery, $dblink) or die ("Unable to select. Try again later.");
-while ($showrow = mysql_fetch_row($showresult))
+$showresult = mysqli_query($dblink, $showquery) or die ("Unable to select. Try again later.");
+while ($showrow = mysqli_fetch_row($showresult))
 {
 if ($showrow[0] == "advanced")
 $show_advanced = $showrow[1];
@@ -49,14 +49,14 @@ $updvarquery .= "PageExt='$page_ext', ";
 }
 $updvarquery .= "Description='$adddescription', SiteMessage='$addsitemessage', ";
 $updvarquery .= "EmailLink='$addemaillink' WHERE ID=1";
-$updvarresult = mysql_query($updvarquery, $dblink) or die("Unable to update. Please try again later.");
+$updvarresult = mysqli_query($dblink, $updvarquery) or die("Unable to update. Please try again later.");
 $updmsg = "<p align=\"center\">Your system settings have been updated.";
 // Update catalog page as well
 if (($set_master_key == "yes" OR $show_general == "Yes") AND $oldcatalog != $catalogpage AND $catpgroot[0] != "index" AND $catpgroot[0] != "search" AND $catpgroot[0] != "sitesearch" AND $catpgroot[0] != "sitemap" AND $catpgroot[0] != "weblinks" AND $catpgroot[0] != "contact" AND $catpgroot[0] != "certificates" AND $catpgroot[0] != "registry" AND $catpgroot[0] != "wholesale" AND $catpgroot[0] != "orders" AND $catpgroot[0] != "affiliates" AND $catpgroot[0] != "events" AND $catpgroot[0] != "articles" AND $catpgroot[0] != "guestbook" AND $catpgroot[0] != "faqs")
 {
 $oldcatroot = explode(".", $oldcatalog);
 $updpgquery .= "UPDATE " .$DB_Prefix ."_pages SET PageName='$catpgroot[0]' WHERE PageName='$oldcatroot[0]' AND PageType='required'";
-$updpgresult = mysql_query($updpgquery, $dblink) or die("Unable to update. Please try again later.");
+$updpgresult = mysqli_query($dblink, $updpgquery) or die("Unable to update. Please try again later.");
 $updmsg .= "<br>Please make sure to rename your catalog page!";
 }
 $updmsg .= "</p>";
@@ -73,13 +73,13 @@ $updsitequery .= "URL='$site_domain'";
 if ($unlock)
 $updsitequery .= ", OpenSet='$_POST[unlock]'";
 $updsitequery .= " WHERE ID=1";
-$updsiteresult = mysql_query($updsitequery, $dblink) or die ("Unable to update your system variables. Try again later.");
+$updsiteresult = mysqli_query($dblink, $updsitequery) or die ("Unable to update your system variables. Try again later.");
 }
 
 // Get variables
 $openquery = "SELECT OpenSet, URL, PageExt FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$openresult = mysql_query($openquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-$openrow = mysql_fetch_array($openresult);
+$openresult = mysqli_query($dblink, $openquery) or die ("Unable to select your system variables. Try again later.");
+$openrow = mysqli_fetch_array($openresult);
 // Check for correct domain
 $key=strtolower($openrow[URL]);
 $key=str_replace("www.","",$key);
@@ -121,11 +121,11 @@ if ($updmsg)
 echo "$updmsg";
 
 $varquery = "SELECT * FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$varresult = mysql_query($varquery, $dblink) or die("Unable to select your variables. Please try again later.");
-$varnum = mysql_num_rows($varresult);
+$varresult = mysqli_query($dblink, $varquery) or die("Unable to select your variables. Please try again later.");
+$varnum = mysqli_num_rows($varresult);
 if ($varnum == 1)
 {
-$varrow = mysql_fetch_array($varresult);
+$varrow = mysqli_fetch_array($varresult);
 $SiteName=stripslashes($varrow[SiteName]);
 $AdminEmail=$varrow[AdminEmail];
 $Keywords=stripslashes($varrow[Keywords]);

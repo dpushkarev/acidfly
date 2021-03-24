@@ -12,13 +12,13 @@ include("open.php");
 if ($ordid)
 {
 $ordquery = "SELECT * FROM " .$DB_Prefix ."_orders WHERE OrderNumber='$ordid'";
-$ordresult = mysql_query($ordquery, $dblink) or die ("Unable to select. Try again later.");
-$ordnum = mysql_num_rows($ordresult);
+$ordresult = mysqli_query($dblink, $ordquery) or die ("Unable to select. Try again later.");
+$ordnum = mysqli_num_rows($ordresult);
 }
 
 if ($ordnum == 1)
 {
-$ordrow = mysql_fetch_array($ordresult);
+$ordrow = mysqli_fetch_array($ordresult);
 if ($ordrow[OrderDate] != 0)
 {
 $splitodate = explode("-",$ordrow[OrderDate]);
@@ -81,8 +81,8 @@ $shipdate = date("n/j/y", mktime(0,0,0,$splitsdate[1],$splitsdate[2],$splitsdate
 }
 $varquery = "SELECT SiteName, URL, AdminEmail, InvLogo, Address, Phone, Fax, Currency ";
 $varquery .= "FROM " .$DB_Prefix ."_vars WHERE ID='1'";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select. Try again later.");
-$varrow = mysql_fetch_array($varresult);
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select. Try again later.");
+$varrow = mysqli_fetch_array($varresult);
 $myurl = "http://" .$varrow[URL];
 if (substr($varrow[InvLogo], 0, 7) == "http://")
 $mylogo = $varrow[InvLogo];
@@ -264,8 +264,8 @@ if ($pr != "n")
 
 <?php
 $salequery = "SELECT * FROM " .$DB_Prefix ."_sales WHERE OrderNumber='$ordid'";
-$saleresult = mysql_query($salequery, $dblink) or die ("Unable to select. Try again later.");
-while ($salerow = mysql_fetch_array($saleresult))
+$saleresult = mysqli_query($dblink, $salequery) or die ("Unable to select. Try again later.");
+while ($salerow = mysqli_fetch_array($saleresult))
 {
 $qty = (float)$salerow[Quantity];
 $item = stripslashes($salerow[Item]);

@@ -10,8 +10,8 @@ $pagequery .= "AND LinkGroup LIKE '%$pggrp%' ";
 if ($show_home == "no")
 $pagequery .= "AND PageName <> 'index' ";
 $pagequery .= "ORDER BY LinkOrder, PageTitle";
-$pageresult = mysql_query($pagequery, $dblink) or die ("Unable to access database.");
-for ($p=1; $pagerow = mysql_fetch_row($pageresult); ++$p)
+$pageresult = mysqli_query($dblink, $pagequery) or die ("Unable to access database.");
+for ($p=1; $pagerow = mysqli_fetch_row($pageresult); ++$p)
 {
 $pg_title = stripslashes($pagerow[1]);
 if ($pagerow[2] == "additional")

@@ -10,8 +10,8 @@ echo "SITE PAGES";
 $pagequery = "SELECT PageName, PageTitle, PageType, NavImage FROM " .$DB_Prefix ."_pages ";
 $pagequery .= "WHERE Active = 'Yes' AND ShowLink = 'Yes'";
 $pagequery .= "ORDER BY LinkOrder, PageTitle";
-$pageresult = mysql_query($pagequery, $dblink) or die ("Unable to access database.");
-while ($pagerow = mysql_fetch_row($pageresult))
+$pageresult = mysqli_query($dblink, $pagequery) or die ("Unable to access database.");
+while ($pagerow = mysqli_fetch_row($pageresult))
 {
 $pg_title = stripslashes($pagerow[1]);
 if ($pagerow[2] == "additional")
@@ -29,27 +29,27 @@ echo "<br><a href=\"$URL/go/itemlist.$pageext\">Product List</a>";
 
 // DISPLAY CATEGORIES
 $categoryquery = "SELECT ID, Category FROM " .$DB_Prefix ."_categories WHERE Parent = '' AND Active <> 'No' ORDER BY Category";
-$categoryresult = mysql_query($categoryquery, $dblink) or die ("Unable to access database.");
-while ($catrow = mysql_fetch_row($categoryresult))
+$categoryresult = mysqli_query($dblink, $categoryquery) or die ("Unable to access database.");
+while ($catrow = mysqli_fetch_row($categoryresult))
 {
 $stripcat = stripslashes($catrow[1]);
 // Sub category list
 $subcatquery = "SELECT ID, Category FROM " .$DB_Prefix ."_categories WHERE Parent = '$catrow[0]' AND Active <> 'No' ORDER BY Category";
-$subcatresult = mysql_query($subcatquery, $dblink) or die ("Unable to access database.");
-$subcatnum = mysql_num_rows($subcatresult);
+$subcatresult = mysqli_query($dblink, $subcatquery) or die ("Unable to access database.");
+$subcatnum = mysqli_num_rows($subcatresult);
 $gotocat = "$Catalog_Page?category=$catrow[0]";
 echo "<br><a href=\"$gotocat\">$stripcat</a>";
-while ($subcatrow = mysql_fetch_row($subcatresult))
+while ($subcatrow = mysqli_fetch_row($subcatresult))
 {
 $stripsubcat = stripslashes($subcatrow[1]);
 // End category list
 $endcatquery = "SELECT ID, Category FROM " .$DB_Prefix ."_categories WHERE Parent = '$subcatrow[0]' AND Active <> 'No' ORDER BY Category";
-$endcatresult = mysql_query($endcatquery, $dblink) or die ("Unable to access database.");
-$endcatnum = mysql_num_rows($endcatresult);
+$endcatresult = mysqli_query($dblink, $endcatquery) or die ("Unable to access database.");
+$endcatnum = mysqli_num_rows($endcatresult);
 $gotosubcat = "$Catalog_Page?category=$subcatrow[0]";
 echo "<br>&nbsp;&nbsp;-&nbsp;";
 echo "<a href=\"$gotosubcat\">$stripsubcat</a>";
-while ($endcatrow = mysql_fetch_row($endcatresult))
+while ($endcatrow = mysqli_fetch_row($endcatresult))
 {
 $stripendcat = stripslashes($endcatrow[1]);
 $gotoendcat = "$Catalog_Page?category=$endcatrow[0]";

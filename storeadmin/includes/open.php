@@ -34,11 +34,11 @@ $err_msg = "<p align=\"center\">Sorry, but your user name or password was not co
 $code_msg = "<p align=\"center\">Please <a href=\"variables.php\">update</a> your domain and key code.</p>";
 $mstr_msg = "<p align=\"center\">Sorry, but this page cannot be found. Please try again or contact the administrator.</p>";
 $pswdquery = "SELECT AdminPass, OpenSet, URL FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$pswdresult = mysql_query($pswdquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-if (mysql_num_rows($pswdresult) == 1)
+$pswdresult = mysqli_query($dblink, $pswdquery) or die ("Unable to select your system variables. Try again later.");
+if (mysqli_num_rows($pswdresult) == 1)
 {
 // Check for correct password
-$pswdrow = mysql_fetch_row($pswdresult);
+$pswdrow = mysqli_fetch_row($pswdresult);
 if ($_COOKIE['adminpswd'] != $pswdrow[0] OR $_COOKIE['adminusr'] != $Admin_User)
 die($err_msg);
 }
@@ -56,8 +56,8 @@ if ($set_master_key == "no")
 {
 // Check parents permissions
 $prquery = "SELECT COUNT(ID) FROM " .$DB_Prefix ."_permissions WHERE SetPg='$setpg' AND SiteGroup<>'' AND GivePermission='No'";
-$prresult = mysql_query($prquery, $dblink) or die ("Unable to select. Try again later.");
-$prrow = mysql_fetch_row($prresult);
+$prresult = mysqli_query($dblink, $prquery) or die ("Unable to select. Try again later.");
+$prrow = mysqli_fetch_row($prresult);
 if ($prrow[0] > 0)
 die($mstr_msg);
 }

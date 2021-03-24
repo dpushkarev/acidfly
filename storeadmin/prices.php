@@ -14,14 +14,14 @@ include("includes/links.php");
 if ($Submit == "Update Prices")
 {
 $pricequery = "SELECT * FROM " .$DB_Prefix ."_prices";
-$priceresult = mysql_query($pricequery, $dblink) or die ("Unable to select. Try again later.");
+$priceresult = mysqli_query($dblink, $pricequery) or die ("Unable to select. Try again later.");
 // Add prices
-if (mysql_num_rows($priceresult) == 0)
+if (mysqli_num_rows($priceresult) == 0)
 {
 for ($i = 1; $i <= 10; ++$i)
 {
 $insquery = "INSERT INTO " .$DB_Prefix ."_prices (StartPrice, EndPrice) VALUES ('$start[$i]', '$end[$i]')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 }
 }
 // Edit prices
@@ -30,17 +30,17 @@ else
 for ($i = 1; $i <= 10; ++$i)
 {
 $updquery = "UPDATE " .$DB_Prefix ."_prices SET StartPrice='$start[$i]', EndPrice='$end[$i]' WHERE ID='$id[$i]'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 }
 }
 
 // Get currency
 $varquery = "SELECT Currency FROM " .$DB_Prefix ."_vars";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-if (mysql_num_rows($varresult) == 1)
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select your system variables. Try again later.");
+if (mysqli_num_rows($varresult) == 1)
 {
-$varrow = mysql_fetch_row($varresult);
+$varrow = mysqli_fetch_row($varresult);
 $Currency="$varrow[0]";
 }
 else
@@ -60,8 +60,8 @@ $Currency="$";
 </tr>
 <?php
 $pricequery = "SELECT * FROM " .$DB_Prefix ."_prices";
-$priceresult = mysql_query($pricequery, $dblink) or die ("Unable to select. Try again later.");
-for ($i = 1; $pricerow = mysql_fetch_row($priceresult),$i <= 10; ++$i)
+$priceresult = mysqli_query($dblink, $pricequery) or die ("Unable to select. Try again later.");
+for ($i = 1; $pricerow = mysqli_fetch_row($priceresult),$i <= 10; ++$i)
 {
 if (($pricerow[1] == 0) AND ($pricerow[2] == 0))
 {

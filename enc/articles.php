@@ -5,8 +5,8 @@ die("Cannot access file directly.");
 if ($article)
 {
 $showquery = "SELECT * FROM " .$DB_Prefix ."_articles WHERE ID='$article'";
-$showresult = mysql_query($showquery, $dblink) or die ("Unable to select. Try again later.");
-$showrow = mysql_fetch_array($showresult);
+$showresult = mysqli_query($dblink, $showquery) or die ("Unable to select. Try again later.");
+$showrow = mysqli_fetch_array($showresult);
 $article_content = stripslashes($showrow[Article]);
 if (strstr($showrow[Article], '<') == FALSE AND strstr($showrow[Article], '>') == FALSE)
 {
@@ -22,9 +22,9 @@ echo "<p align=\"center\"><a href=\"articles.$pageext\">Back to Articles</a></p>
 else
 {
 $artquery = "SELECT ID, Title FROM " .$DB_Prefix ."_articles ORDER BY ListOrder";
-$artresult = mysql_query($artquery, $dblink) or die ("Unable to select. Try again later.");
+$artresult = mysqli_query($dblink, $artquery) or die ("Unable to select. Try again later.");
 echo "<ul>";
-while ($artrow = mysql_fetch_row($artresult))
+while ($artrow = mysqli_fetch_row($artresult))
 {
 echo "<li><a href=\"articles.$pageext?article=$artrow[0]\">" .stripslashes($artrow[1]) ."</a></li>";
 }

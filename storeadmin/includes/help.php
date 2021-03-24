@@ -63,8 +63,8 @@ else if ($helpid)
 $helpquery .= " AND " .$DB_Prefix ."_help.ID='$helpid'";
 $helpquery .= " GROUP BY " .$DB_Prefix ."_help.ID ORDER BY " .$DB_Prefix ."_help.ID";
 
-$helpresult = mysql_query($helpquery, $dblink) or die ("Unable to select. Try again later.");
-$helpnum = mysql_num_rows($helpresult);
+$helpresult = mysqli_query($helpquery, $dblink) or die ("Unable to select. Try again later.");
+$helpnum = mysqli_num_rows($helpresult);
 
 // START SHOW ONLY IF KEYWORDS, MODE OR ID IS PRESENT
 if ($keyword OR $mode OR $helpid)
@@ -77,7 +77,7 @@ echo "<p align=\"center\" class=\"highlighttext\">";
 echo "$buttons";
 echo "Click Topic to View Details</p>";
 echo "<ul>";
-while ($helprow = mysql_fetch_array($helpresult))
+while ($helprow = mysqli_fetch_array($helpresult))
 {
 $title = stripslashes($helprow[Title]);
 echo "<li><a href=\"help.php?helpid=$helprow[ID]\">$title</a></li>";
@@ -88,7 +88,7 @@ echo "</ul>";
 // SHOW SINGLE
 else if ($helpnum == 1)
 {
-$helprow = mysql_fetch_array($helpresult);
+$helprow = mysqli_fetch_array($helpresult);
 $title = stripslashes($helprow[Title]);
 $helpfile = stripslashes($helprow[HelpFile]);
 $showhelp = "";
@@ -124,15 +124,15 @@ $varval = "'$grparr[1]'";
 }
 if (substr($grparr[0], 0, 4) == "VAR_")
 $showquery = "SELECT ID FROM " .$DB_Prefix ."_vars WHERE " .$varfield .$varop .$varval;
-$showresult = mysql_query($showquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($showresult) == 1)
+$showresult = mysqli_query($showquery, $dblink) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($showresult) == 1)
 $showhelp .= "$exp_code[1]";
 }
 else
 {
 $showquery = "SELECT ID FROM " .$DB_Prefix ."_permissions WHERE SetPg='$grparr[0]' AND SubGroup='$grparr[1]' AND GivePermission='Yes'";
-$showresult = mysql_query($showquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($showresult) == 1)
+$showresult = mysqli_query($dblink, $showquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($showresult) == 1)
 $showhelp .= "$exp_code[1]";
 }
 }
@@ -146,8 +146,8 @@ echo "<br><a href=\"javascript:window.opener.location='../$helprow[Mode].$pageex
 echo "</p>";
 // Show help?
 $pgquery = "SELECT ID FROM " .$DB_Prefix ."_pages WHERE PageName='$helprow[Mode]' AND Active='No'";
-$pgresult = mysql_query($pgquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($pgresult) == 1)
+$pgresult = mysqli_query($dblink, $pgquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($pgresult) == 1)
 echo "Please <a href=\"javascript:window.opener.location='../$helprow[Mode].$pageext';window.close();\">activate the page</a> before viewing the help screens.";
 else
 echo "$showhelp";
@@ -159,10 +159,10 @@ else
 {
 $masterquery = "SELECT MasterFile FROM " .$DB_Prefix ."_help";
 $masterquery .= " WHERE Mode='$helprow[Mode]' AND SubMode=''";
-$masterresult = mysql_query($masterquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($masterresult) == 1)
+$masterresult = mysqli_query($dblink, $masterquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($masterresult) == 1)
 {
-$masterrow = mysql_fetch_row($masterresult);
+$masterrow = mysqli_fetch_row($masterresult);
 $masterfile = stripslashes($masterrow[0]);
 }
 }

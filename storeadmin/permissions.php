@@ -15,17 +15,17 @@ include("includes/links.php");
 if ($setperm AND $pid)
 {
 $updquery = "UPDATE " .$DB_Prefix ."_permissions SET GivePermission = '$setperm' WHERE ID = '$pid'";
-$updresult = mysql_query($updquery, $dblink) or die ("Unable to update permissions. Try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die ("Unable to update permissions. Try again later.");
 // Update subpermissions if needed
 if ($setperm == "No")
 {
 $tquery = "SELECT SetPg FROM " .$DB_Prefix ."_permissions WHERE ID = '$pid' AND SubGroup = ''";
-$tresult = mysql_query($tquery, $dblink) or die ("Unable to select. Try again later.");
-$trow = mysql_fetch_row($tresult);
-if (mysql_num_rows($tresult) == 1)
+$tresult = mysqli_query($dblink, $tquery) or die ("Unable to select. Try again later.");
+$trow = mysqli_fetch_row($tresult);
+if (mysqli_num_rows($tresult) == 1)
 {
 $updtquery = "UPDATE " .$DB_Prefix ."_permissions SET GivePermission = '$setperm' WHERE SetPg = '$trow[0]'";
-$updtresult = mysql_query($updtquery, $dblink) or die ("Unable to update permissions. Try again later.");
+$updtresult = mysqli_query($dblink, $updtquery) or die ("Unable to update permissions. Try again later.");
 }
 }
 }
@@ -33,14 +33,14 @@ $updtresult = mysql_query($updtquery, $dblink) or die ("Unable to update permiss
 else if ($setperm AND $gid >= 0)
 {
 $updquery = "UPDATE " .$DB_Prefix ."_permissions SET GivePermission = '$setperm' WHERE SiteGroup = '$group[$gid]'";
-$updresult = mysql_query($updquery, $dblink) or die ("Unable to update all permissions. Try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die ("Unable to update all permissions. Try again later.");
 // Update subpermissions if needed
 $tquery = "SELECT SetPg FROM " .$DB_Prefix ."_permissions WHERE SiteGroup = '$group[$gid]'";
-$tresult = mysql_query($tquery, $dblink) or die ("Unable to select. Try again later.");
-while ($trow = mysql_fetch_row($tresult))
+$tresult = mysqli_query($dblink, $tquery) or die ("Unable to select. Try again later.");
+while ($trow = mysqli_fetch_row($tresult))
 {
 $updtquery = "UPDATE " .$DB_Prefix ."_permissions SET GivePermission = '$setperm' WHERE SetPg = '$trow[0]'";
-$updtresult = mysql_query($updtquery, $dblink) or die ("Unable to update permissions. Try again later.");
+$updtresult = mysqli_query($dblink, $updtquery) or die ("Unable to update permissions. Try again later.");
 }
 }
 
@@ -48,7 +48,7 @@ $updtresult = mysql_query($updtquery, $dblink) or die ("Unable to update permiss
 else if ($setgroup >= 0 AND $pid)
 {
 $updquery = "UPDATE " .$DB_Prefix ."_permissions SET SiteGroup = '$group[$setgroup]' WHERE ID = '$pid'";
-$updresult = mysql_query($updquery, $dblink) or die ("Unable to update all permissions. Try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die ("Unable to update all permissions. Try again later.");
 }
 ?>
 
@@ -79,8 +79,8 @@ $groupid = urlencode($sitegroup);
 echo "<tr><td colspan=\"5\"><a name=\"$gval\"></a><hr noshade size=\"1\" class=\"linecolor\"></td></tr>";
 // Get entries for this group
 $itemquery = "SELECT * FROM " .$DB_Prefix ."_permissions WHERE SiteGroup = '$groupname' ORDER BY ID";
-$itemresult = mysql_query($itemquery, $dblink) or die ("Unable to select permission entries. Try again later.");
-while ($itemrow = mysql_fetch_array($itemresult))
+$itemresult = mysqli_query($dblink, $itemquery) or die ("Unable to select permission entries. Try again later.");
+while ($itemrow = mysqli_fetch_array($itemresult))
 {
 echo "<tr>";
 echo "<td width=\"100%\" nowrap>" .stripslashes($itemrow[Feature]) ."</td>";
@@ -122,8 +122,8 @@ echo "</tr>";
 // Display subpermissions if they exist
 $subquery = "SELECT * FROM " .$DB_Prefix ."_permissions WHERE SetPg = '$itemrow[SetPg]'";
 $subquery .= " AND SiteGroup = '' ORDER BY ID";
-$subresult = mysql_query($subquery, $dblink) or die ("Unable to select permission entries. Try again later.");
-while ($subrow = mysql_fetch_array($subresult))
+$subresult = mysqli_query($dblink, $subquery) or die ("Unable to select permission entries. Try again later.");
+while ($subrow = mysqli_fetch_array($subresult))
 {
 echo "<tr>";
 echo "<td width=\"100%\" colspan=\"4\" nowrap>";

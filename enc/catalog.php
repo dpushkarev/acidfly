@@ -24,12 +24,12 @@ else if ($Order_Of_Product)
 $searchquery .= " ORDER BY $Order_Of_Product";
 $searchquery .= " LIMIT $offset, $LimitOfItems";
 
-$searchresult = mysql_query($searchquery, $dblink) or die ("Unable to access database. Please make sure you have entered your system variables in your administration area.");
-$searchnum = mysql_num_rows($searchresult);
+$searchresult = mysqli_query($dblink, $searchquery) or die ("Unable to access database. Please make sure you have entered your system variables in your administration area.");
+$searchnum = mysqli_num_rows($searchresult);
 
 // Total records altogether
-$totalsearchresult = mysql_query($totalsearchquery, $dblink) or die ("Unable to access database.");
-$totalsearchnum = mysql_num_rows($totalsearchresult);
+$totalsearchresult = mysqli_query($dblink, $totalsearchquery) or die ("Unable to access database.");
+$totalsearchnum = mysqli_num_rows($totalsearchresult);
 
 // Unsuccessful wholesale login
 if ($mode == "ws" AND ($wsnum != 1 OR !$wsrow[0]))
@@ -78,8 +78,8 @@ if ($Order_Of_Product)
 $searchquery .= " ORDER BY $Order_Of_Product ";
 }
 $searchquery .= "LIMIT $LimitOfItems";
-$searchresult = mysql_query($searchquery, $dblink) or die ("Unable to select. Try again later.");
-$searchnum = mysql_num_rows($searchresult);
+$searchresult = mysqli_query($dblink, $searchquery) or die ("Unable to select. Try again later.");
+$searchnum = mysqli_num_rows($searchresult);
 if ($Item_Columns == "G")
 {
 $Item_Columns = 0;

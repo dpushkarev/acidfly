@@ -3,11 +3,11 @@ require_once("../stconfig.php");
 // First check to make sure old info is correct
 $err_msg = "<p align=\"center\">Sorry, but your user name or password was not correct. Please <a href=\"index.php$mastaddl\">go back</a> and try again.</p>";
 $pswdquery = "SELECT AdminPass, OpenSet, URL FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$pswdresult = mysql_query($pswdquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-if (mysql_num_rows($pswdresult) == 1)
+$pswdresult = mysqli_query($dblink, $pswdquer) or die ("Unable to select your system variables. Try again later.");
+if (mysqli_num_rows($pswdresult) == 1)
 {
 // Check for correct password
-$pswdrow = mysql_fetch_row($pswdresult);
+$pswdrow = mysqli_fetch_row($pswdresult);
 if ($_COOKIE['adminpswd'] != $pswdrow[0] OR $_COOKIE['adminusr'] != $Admin_User)
 die($err_msg);
 }
@@ -25,7 +25,7 @@ else
 $adminpswd = md5($_POST[newpass]);
 setcookie ("adminpswd", "$adminpswd", 0, "/", "", 0);
 $updquery = "UPDATE " .$DB_Prefix ."_vars SET AdminPass='$adminpswd' WHERE ID=1";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 $gotolink .= "password.php?scs=y";
 $gotosize = strlen($gotolink);
 @header("location: $gotolink");
@@ -35,5 +35,5 @@ $gotosize = strlen($gotolink);
 die("<p align=\"center\">Your password has been updated. <a href=\"$gotolink\">Continue</a>.</p>");
 }
 }
-mysql_close();
+mysqli_close();
 </script>

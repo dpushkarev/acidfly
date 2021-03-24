@@ -37,8 +37,8 @@ $kwquery .= "Content LIKE '%$addlterm%'";
 }
 // END KEYWORD PAGE SEARCH
 $kwquery .= ")";
-$kwresult = mysql_query($kwquery, $dblink) or die ("Unable to select kw. Try again later.");
-$kwnum = mysql_num_rows($kwresult);
+$kwresult = mysqli_query($dblink, $kwquery) or die ("Unable to select kw. Try again later.");
+$kwnum = mysqli_num_rows($kwresult);
 
 // SEARCH CATEGORIES
 $catquery = "SELECT ID, Category FROM " .$DB_Prefix ."_categories WHERE Active='Yes' AND (";
@@ -57,8 +57,8 @@ $catquery .= "(Category LIKE '%$addlterm%' OR Keywords LIKE '%$addlterm%')";
 }
 // END KEYWORD CATEGORY SEARCH
 $catquery .= ")";
-$catresult = mysql_query($catquery, $dblink) or die ("Unable to select key. Try again later.");
-$catnum = mysql_num_rows($catresult);
+$catresult = mysqli_query($dblink, $catquery) or die ("Unable to select key. Try again later.");
+$catnum = mysqli_num_rows($catresult);
 
 // SEARCH ITEMS
 $keyquery = "SELECT ID, Catalog, Item FROM " .$DB_Prefix ."_items WHERE Active='Yes' AND (";
@@ -77,13 +77,13 @@ $keyquery .= "(Item LIKE '%$addlterm%' OR Keywords LIKE '%$addlterm%')";
 }
 // END KEYWORD ITEM SEARCH
 $keyquery .= ")";
-$keyresult = mysql_query($keyquery, $dblink) or die ("Unable to select key. Try again later.");
-$keynum = mysql_num_rows($keyresult);
+$keyresult = mysqli_query($dblink, $keyquery) or die ("Unable to select key. Try again later.");
+$keynum = mysqli_num_rows($keyresult);
 
 // SEARCH ARTICLES
 $artchkquery = "SELECT ID FROM " .$DB_Prefix ."_pages WHERE PageName='articles' AND PageType='optional' AND Active='Yes'";
-$artchkresult = mysql_query($artchkquery, $dblink) or die ("Unable to select artch. Try again later.");
-if (mysql_num_rows($artchkresult) == 1)
+$artchkresult = mysqli_query($dblink, $artchkquery) or die ("Unable to select artch. Try again later.");
+if (mysqli_num_rows($artchkresult) == 1)
 {
 $artquery = "SELECT ID, Title FROM " .$DB_Prefix ."_articles WHERE ";
 // START ARTICLE SEARCH
@@ -101,14 +101,14 @@ $artquery .= "(Title LIKE '%$addlterm%' OR Article LIKE '%$addlterm%')";
 }
 // END ARTICLE SEARCH
 $artquery .= " ORDER BY ListOrder, Title";
-$artresult = mysql_query($artquery, $dblink) or die ("Unable to select art. Try again later.");
-$artnum = mysql_num_rows($artresult);
+$artresult = mysqli_query($dblink, $artquery) or die ("Unable to select art. Try again later.");
+$artnum = mysqli_num_rows($artresult);
 }
 
 // SEARCH FAQ
 $faqchkquery = "SELECT ID FROM " .$DB_Prefix ."_pages WHERE PageName='faqs' AND PageType='optional' AND Active='Yes'";
-$faqchkresult = mysql_query($faqchkquery, $dblink) or die ("Unable to select faqch. Try again later.");
-if (mysql_num_rows($faqchkresult) == 1)
+$faqchkresult = mysqli_query($dblink, $faqchkquery) or die ("Unable to select faqch. Try again later.");
+if (mysqli_num_rows($faqchkresult) == 1)
 {
 $faqquery = "SELECT ID, Question FROM " .$DB_Prefix ."_faq WHERE ";
 // START FAQ SEARCH
@@ -126,8 +126,8 @@ $faqquery .= "(Question LIKE '%$addlterm%' OR Answer LIKE '%$addlterm%')";
 }
 // END FAQ SEARCH
 $faqquery .= " ORDER BY ListOrder, Question";
-$faqresult = mysql_query($faqquery, $dblink) or die ("Unable to select faq. Try again later.");
-$faqnum = mysql_num_rows($faqresult);
+$faqresult = mysqli_query($dblink, $faqquery) or die ("Unable to select faq. Try again later.");
+$faqnum = mysqli_num_rows($faqresult);
 }
 
 if ($kwnum == 0 AND $catnum == 0 AND $keynum == 0 AND $artnum == 0 AND $faqnum == 0)
@@ -144,7 +144,7 @@ if ($kwnum > 0)
 {
 $sitepages = "<td valign=\"top\">";
 $sitepages .= "<span class=\"boldtext\">Site Pages</span>";
-while ($kwrow = mysql_fetch_row($kwresult))
+while ($kwrow = mysqli_fetch_row($kwresult))
 {
 if ($kwrow[2] == "additional")
 $page_dir="pages/";
@@ -161,7 +161,7 @@ if ($catnum > 0)
 {
 $catlist = "<td valign=\"top\">";
 $catlist .= "<span class=\"boldtext\">Categories</span>";
-while ($catrow = mysql_fetch_row($catresult))
+while ($catrow = mysqli_fetch_row($catresult))
 {
 $clist = "$Catalog_Page?category=$catrow[0]";
 $catlist .= "<br><a href=\"$Catalog_Page?category=$catrow[0]\">$catrow[1]</a>";
@@ -175,7 +175,7 @@ if ($keynum > 0)
 {
 $itemlist = "<td valign=\"top\">";
 $itemlist .= "<span class=\"boldtext\">Catalog Items</span>";
-while ($keyrow = mysql_fetch_row($keyresult))
+while ($keyrow = mysqli_fetch_row($keyresult))
 {
 $catlink = "$Catalog_Page?item=$keyrow[0]";
 $itemlist .= "<br><a href=\"$Catalog_Page?item=$keyrow[0]\">";
@@ -192,7 +192,7 @@ if ($artnum > 0)
 {
 $articlelist = "<td valign=\"top\">";
 $articlelist .= "<span class=\"boldtext\">Articles</span>";
-while ($artrow = mysql_fetch_row($artresult))
+while ($artrow = mysqli_fetch_row($artresult))
 {
 $titlename = stripslashes($artrow[1]);
 $articlelist .= "<br><a href=\"$URL/articles.$pageext?article=$artrow[0]\">$titlename</a>";
@@ -206,7 +206,7 @@ if ($faqnum > 0)
 {
 $faqlist = "<td valign=\"top\">";
 $faqlist .= "<span class=\"boldtext\">Questions</span>";
-while ($faqrow = mysql_fetch_row($faqresult))
+while ($faqrow = mysqli_fetch_row($faqresult))
 {
 $question = stripslashes($faqrow[1]);
 $faqlist .= "<br><a href=\"$URL/faqs.$pageext#Q$faqrow[0]\">$question</a>";

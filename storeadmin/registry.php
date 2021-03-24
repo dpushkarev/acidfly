@@ -17,31 +17,31 @@ $setpg_upper = "Gift Registry";
 if ($submit == "Activate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='Yes' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 $updvquery = "UPDATE " .$DB_Prefix ."_vars SET WishList='gift' WHERE WishList = 'none' AND ID='1'";
-$updvresult = mysql_query($updvquery, $dblink) or die("Unable to update. Please try again later.");
+$updvresult = mysqli_query($dblink, $updvquery) or die("Unable to update. Please try again later.");
 }
 
 if ($submit == "Deactivate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='No' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 $updvquery = "UPDATE " .$DB_Prefix ."_vars SET WishList='none' WHERE WishList <> 'none' AND ID='1'";
-$updvresult = mysql_query($updvquery, $dblink) or die("Unable to update. Please try again later.");
+$updvresult = mysqli_query($dblink, $updvquery) or die("Unable to update. Please try again later.");
 }
 
 $varquery = "SELECT WishList FROM " .$DB_Prefix ."_vars WHERE ID='1'";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select. Try again later.");
-$varrow = mysql_fetch_row($varresult);
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select. Try again later.");
+$varrow = mysqli_fetch_row($varresult);
 $Registry = $varrow[0];
 
 // Finish delete record
 if ($regid AND $submit == "Yes")
 {
 $delquery = "DELETE FROM " .$DB_Prefix ."_registry WHERE ID='$regid'";
-$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 $delrquery = "DELETE FROM " .$DB_Prefix ."_reglist WHERE RegistryID='$regid'";
-$delrresult = mysql_query($delrquery, $dblink) or die("Unable to delete. Please try again later.");
+$delrresult = mysqli_query($dblink, $delrquery) or die("Unable to delete. Please try again later.");
 }
 
 // Update record
@@ -73,8 +73,8 @@ $getuser = "failed";
 break;
 }
 $chkquery = "SELECT RegUser FROM " .$DB_Prefix ."_registry WHERE RegUser='$reguser'";
-$chkresult = mysql_query($chkquery, $dblink) or die ("Unable to select. Try again later.");
-$chknum = mysql_num_rows($chkresult);
+$chkresult = mysqli_query($dblink, $chkquery) or die ("Unable to select. Try again later.");
+$chknum = mysqli_num_rows($chkresult);
 if ($chknum > 0)
 {
 $tempreguser = substr($reguser, 0, 6);
@@ -100,7 +100,7 @@ $updquery .= "ShipToAddress='$addshipaddress', ShipToCity='$addshipcity', ";
 $updquery .= "ShipToState='$addshipstate', ShipToZip='$shiptozip', Type='$regtype', ";
 $updquery .= "ShipToCountry='$addshipcountry', EventDate='$dateofevent', ";
 $updquery .= "RegUser='$reguser', RegPass='$regpass' WHERE ID='$regid'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 // ADD
 else
@@ -111,7 +111,7 @@ $insquery .= "ShipToCity, ShipToState, ShipToZip, Type, ShipToCountry, EventDate
 $insquery .= "CreateDate) VALUES ('$regemail', '$addregname1', '$addregname2', '$addshipname', ";
 $insquery .= "'$addshipaddress', '$addshipcity', '$addshipstate', '$shiptozip', '$regtype', '$addshipcountry', ";
 $insquery .= "'$dateofevent', '$reguser', '$regpass', '$createdate')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 }
 }
 
@@ -187,36 +187,36 @@ else if ($regid AND $md == "itm")
 if ($action == "Yes")
 {
 $delquery = "DELETE FROM " .$DB_Prefix ."_reglist WHERE ID = '$itemid'";
-$delresult = mysql_query($delquery, $dblink) or die ("Unable to delete. Try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die ("Unable to delete. Try again later.");
 }
 // Modify items wanted
 else if ($action == "dnwnt")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_reglist SET QtyWanted = QtyWanted-1 WHERE ID = '$itemid'";
-$updresult = mysql_query($updquery, $dblink) or die ("Unable to decrease wanted. Try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die ("Unable to decrease wanted. Try again later.");
 }
 else if ($action == "upwnt")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_reglist SET QtyWanted = QtyWanted+1 WHERE ID = '$itemid'";
-$updresult = mysql_query($updquery, $dblink) or die ("Unable to increase wanted. Try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die ("Unable to increase wanted. Try again later.");
 }
 // Modify items received
 else if ($action == "dnrcd")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_reglist SET QtyReceived = QtyReceived-1 WHERE ID = '$itemid'";
-$updresult = mysql_query($updquery, $dblink) or die ("Unable to decrease received. Try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die ("Unable to decrease received. Try again later.");
 }
 else if ($action == "uprcd")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_reglist SET QtyReceived = QtyReceived+1 WHERE ID = '$itemid'";
-$updresult = mysql_query($updquery, $dblink) or die ("Unable to increase received. Try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die ("Unable to increase received. Try again later.");
 }
 $regquery = "SELECT " .$DB_Prefix ."_reglist.*, " .$DB_Prefix ."_items.Item ";
 $regquery .= "FROM " .$DB_Prefix ."_reglist, " .$DB_Prefix ."_items ";
 $regquery .= "WHERE " .$DB_Prefix ."_reglist.ProductID=" .$DB_Prefix ."_items.ID ";
 $regquery .= "AND " .$DB_Prefix ."_reglist.RegistryID='$regid'";
-$regresult = mysql_query($regquery, $dblink) or die ("Unable to select registry items. Try again later.");
-$regnum = mysql_num_rows($regresult);
+$regresult = mysqli_query($dblink, $regquery) or die ("Unable to select registry items. Try again later.");
+$regnum = mysqli_num_rows($regresult);
 ?>
 
 <form method="POST" action="registry.php">
@@ -245,7 +245,7 @@ else
 <td align="center">&nbsp;</td>
 </tr>
 <?php
-while ($regrow = mysql_fetch_array($regresult))
+while ($regrow = mysqli_fetch_array($regresult))
 {
 echo "<tr>";
 echo "<td width=\"100%\">" .stripslashes($regrow[Item]) ." " .stripslashes($regrow[Options]) ."</td>";
@@ -299,10 +299,10 @@ else if ($md == "dp")
 if ($regid)
 {
 $getquery = "SELECT * FROM " .$DB_Prefix ."_registry WHERE ID='$regid'";
-$getresult = mysql_query($getquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($getresult) == 1)
+$getresult = mysqli_query($dblink, $getquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($getresult) == 1)
 {
-$getrow = mysql_fetch_array($getresult);
+$getrow = mysqli_fetch_array($getresult);
 $regemail = $getrow[Email];
 $regname1 = str_replace('"', "&quot;", stripslashes($getrow[RegName1]));
 $regname2 = str_replace('"', "&quot;", stripslashes($getrow[RegName2]));
@@ -477,8 +477,8 @@ $startevent = $expevent[1] ."-" .$expevent[0] ."-01";
 $endevent = $expevent[1] ."-" .$expevent[0] ."-" .$noofdays;
 $regquery .= " EventDate >= '$startevent' AND EventDate <= '$endevent'";
 }
-$regresult = mysql_query($regquery, $dblink) or die ("Unable to select. Try again later.");
-$regnum = mysql_num_rows($regresult);
+$regresult = mysqli_query($dblink, $regquery) or die ("Unable to select. Try again later.");
+$regnum = mysqli_num_rows($regresult);
 if ($regnum == 0)
 {
 echo "<tr><td align=\"center\" class=\"salecolor\" colspan=\"5\">";
@@ -508,7 +508,7 @@ echo "</td>";
 echo "<td valign=\"top\" align=\"center\" class=\"accent\">Type</td>";
 echo "<td valign=\"top\" align=\"center\" class=\"accent\">Action</td>";
 echo "</tr>";
-while ($regrow = mysql_fetch_array($regresult))
+while ($regrow = mysqli_fetch_array($regresult))
 {
 echo "<tr>";
 echo "<td valign=\"top\" align=\"left\">";
@@ -562,10 +562,10 @@ else
 {
 
 $getquery = "SELECT ID, Active FROM " .$DB_Prefix ."_pages WHERE PageName='$setpg_lower' AND PageType='optional'";
-$getresult = mysql_query($getquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($getresult) == 1)
+$getresult = mysqli_query($dblink, $getquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($getresult) == 1)
 {
-$getrow = mysql_fetch_row($getresult);
+$getrow = mysqli_fetch_row($getresult);
 $pgid = $getrow[0];
 $setactive = $getrow[1];
 }

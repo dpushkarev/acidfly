@@ -5,10 +5,10 @@ die("Cannot access file directly.");
 if ($Submit == "Send")
 {
 $wsquery = "SELECT Email, Password FROM " .$DB_Prefix ."_wholesale WHERE Email = '$wsemail'";
-$wsresult = mysql_query($wsquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($wsresult) == 1)
+$wsresult = mysqli_query($dblink, $wsquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($wsresult) == 1)
 {
-$wsrow = mysql_fetch_row($wsresult);
+$wsrow = mysqli_fetch_row($wsresult);
 $email = $wsrow[0];
 $wspass = $wsrow[1];
 $webpage = $URL ."/wholesale.$pageext";
@@ -47,8 +47,8 @@ echo "Please go back and try again.</p>";
 else
 {
 $wsquery = "SELECT ID FROM " .$DB_Prefix ."_wholesale WHERE Email='" .$_POST[emailaddy] ."'";
-$wsresult = mysql_query($wsquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($wsresult) > 0)
+$wsresult = mysqli_query($dblink, $wsquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($wsresult) > 0)
 {
 echo "<p>Sorry, but your email address is already in our system. Go to our ";
 echo "<a href=\"wholesale.$pageext?wslg=y\">login area</a> to sign in. ";
@@ -58,8 +58,8 @@ echo "and it will be sent to you.</p>";
 else
 {
 $varquery = "SELECT URL, AdminEmail FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select. Try again later.");
-$varrow = mysql_fetch_row($varresult);
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select. Try again later.");
+$varrow = mysqli_fetch_row($varresult);
 $URL = $varrow[0];
 $admin_email = $varrow[1];
 $addcompany = addslash_mq(stripbadstuff($_POST['compname']));
@@ -74,7 +74,7 @@ $addwebsiteurl = stripbadstuff($_POST['websiteurl']);
 $stripwebsiteurl = stripbadstuff($_POST['websiteurl']);
 $insquery = "INSERT INTO " .$DB_Prefix ."_wholesale (Company, WebSite, Email, Contact, Password, Discount, Active) ";
 $insquery .= "VALUES ('$addcompany', '$addwebsiteurl', '$addemail', '$addaddress', '$addwspass', '0', 'No')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 mail($admin_email, "Wholesale Application", "The following company has requested to be a wholesale vendor:
 
 Company: $stripcompany
@@ -159,8 +159,8 @@ $wholesale_set = "n";
 if ($wspass AND $wsemail)
 {
 $wsquery = "SELECT Company, Discount FROM " .$DB_Prefix ."_wholesale WHERE Email='$wsemail' AND Password='$wspass' AND Active='Yes'";
-$wsresult = mysql_query($wsquery, $dblink) or die ("Unable to select. Try again later.");
-$wsnum = mysql_num_rows($wsresult);
+$wsresult = mysqli_query($dblink, $wsquery) or die ("Unable to select. Try again later.");
+$wsnum = mysqli_num_rows($wsresult);
 if ($wsnum == 1)
 {
 echo "<p align=\"center\">";

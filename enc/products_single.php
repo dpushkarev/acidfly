@@ -5,7 +5,7 @@ echo "<table border=\"0\" cellpadding=\"3\" align=\"center\" cellspacing=\"0\" w
 // Display line above products if selected
 if ($Product_Line)
 echo "<tr><td colspan=\"3\" align=\"center\" width=\"100%\"><hr class=\"linecolor\"></td></tr>";
-while ($searchrow = mysql_fetch_array($searchresult))
+while ($searchrow = mysqli_fetch_array($searchresult))
 {
 $priceset = "yes";
 $stripitem = stripslashes($searchrow[2]);
@@ -14,8 +14,8 @@ $stripdescription = stripslashes($searchrow[3]);
 
 $relquery = "SELECT " .$DB_Prefix ."_related.relatedID, " .$DB_Prefix ."_items.Item, " .$DB_Prefix ."_items.SmImage FROM " .$DB_Prefix ."_related, " .$DB_Prefix ."_items WHERE ";
 $relquery .= $DB_Prefix ."_related.relatedID = " .$DB_Prefix ."_items.ID AND " .$DB_Prefix ."_related.ProductID = '$searchrow[0]'";
-$relresult = mysql_query($relquery, $dblink) or die ("Unable to access database.");
-$relnum = mysql_num_rows($relresult);
+$relresult = mysqli_query($dblink, $relquery) or die ("Unable to access database.");
+$relnum = mysqli_num_rows($relresult);
 
 // Set main item price
 if ($searchrow[11] != 0)
@@ -60,14 +60,14 @@ $show_item_inv = "yes";
 $optquery = "SELECT * FROM " .$DB_Prefix ."_options WHERE ItemID = '$searchrow[0]' AND Active <> 'No'";
 $chkquery = $optquery ." AND OptionNum='1' AND Attributes LIKE '%:%'";
 $optquery .= " ORDER BY OptionNum";
-$optresult = mysql_query($optquery, $dblink) or die ("Unable to access database.");
-$optnum = mysql_num_rows($optresult);
-$chkresult = mysql_query($chkquery, $dblink) or die ("Unable to access database.");
-$chknum = mysql_num_rows($chkresult);
+$optresult = mysqli_query($dblink, $optquery) or die ("Unable to access database.");
+$optnum = mysqli_num_rows($optresult);
+$chkresult = mysqli_query($dblink, $chkquery) or die ("Unable to access database.");
+$chknum = mysqli_num_rows($chkresult);
 $display_options = "";
 if ($optnum != 0)
 {
-for ($optcount = 1; $optrow = mysql_fetch_array($optresult); ++$optcount)
+for ($optcount = 1; $optrow = mysqli_fetch_array($optresult); ++$optcount)
 {
 $optionname = stripslashes($optrow[3]);
 $attributes = stripslashes($optrow[5]);
@@ -228,10 +228,10 @@ echo "</span>";
 if ($searchrow[24])
 {
 $popquery = "SELECT PageTitle FROM " .$DB_Prefix ."_popups WHERE ID='$searchrow[24]'";
-$popresult = mysql_query($popquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($popresult) == 1)
+$popresult = mysqli_query($dblink, $popquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($popresult) == 1)
 {
-$poprow = mysql_fetch_array($popresult);
+$poprow = mysqli_fetch_array($popresult);
 echo "<p class=\"p_layout\">";
 echo "<a href=\"go/popup.php?pgid=$searchrow[24]\" target=\"_blank\" onClick=\"PopUp=window.open('go/popup.php?pgid=$searchrow[24]', 'NewWin', 'resizable=yes,width=425,height=500,left=0,top=0,screenX=0,screenY=0'); PopUp.focus(); return false;\" class=\"popupcolor\">";
 echo stripslashes($poprow[0]) ."</a></p>";
@@ -392,7 +392,7 @@ if ($relatedimages == "Yes")
 echo "<div align=\"center\">";
 echo "<table border=\"0\">";
 echo "<tr>";
-while ($relrow = mysql_fetch_array($relresult))
+while ($relrow = mysqli_fetch_array($relresult))
 {
 $relitem = stripslashes($relrow[1]);
 if (substr($relrow[2], 0, 7) == "http://")
@@ -417,7 +417,7 @@ echo "</div>";
 else
 {
 echo "<ul style=\"margin-top: 0; margin-bottom: 0\">";
-while ($relrow = mysql_fetch_array($relresult))
+while ($relrow = mysqli_fetch_array($relresult))
 {
 $relitem = stripslashes($relrow[1]);
 echo "<li><a href=\"$Catalog_Page?item=$relrow[0]\" class=\"relatedcolor\">$relitem</a></li>";

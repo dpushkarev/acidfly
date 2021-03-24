@@ -33,7 +33,7 @@ if ($siteurl AND substr($siteurl, 0, 7) != "http://")
 $siteurl = "http://" .$siteurl;
 $updquery = "UPDATE " .$DB_Prefix ."_links SET LinkName='$linkname', LinkCode='$linkcode', SiteURL='$siteurl', ";
 $updquery .= "Image='$image', Description='$description', Active='$active', LinkOrder='$linkorder' WHERE ID='$linkid'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 // Add new link
 else
@@ -45,7 +45,7 @@ if ($siteurl AND substr($siteurl, 0, 7) != "http://")
 $siteurl = "http://" .$siteurl;
 $insquery = "INSERT INTO " .$DB_Prefix ."_links (LinkName, LinkCode, SiteURL, Image, Description, Active, LinkOrder)";
 $insquery .= " VALUES ('$linkname', '$linkcode', '$siteurl', '$image', '$description', '$active', '$linkorder')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 }
 }
 }
@@ -53,7 +53,7 @@ $insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try a
 if ($mode == "Yes")
 {
 $delquery = "DELETE FROM " .$DB_Prefix ."_links WHERE ID='$linkid'";
-$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 }
 
 if ($mode == "Add" OR $mode == "Edit")
@@ -61,11 +61,11 @@ if ($mode == "Add" OR $mode == "Edit")
 if ($mode == "Edit" AND $linkid AND !$errmsg)
 {
 $getlinkquery = "SELECT * FROM " .$DB_Prefix ."_links WHERE ID='$linkid'";
-$getlinkresult = mysql_query($getlinkquery, $dblink) or die ("Could not show links. Try again later.");
-$getlinknum = mysql_num_rows($getlinkresult);
+$getlinkresult = mysqli_query($dblink, $getlinkquery) or die ("Could not show links. Try again later.");
+$getlinknum = mysqli_num_rows($getlinkresult);
 if ($getlinknum == 1)
 {
-$getlinkrow = mysql_fetch_array($getlinkresult);
+$getlinkrow = mysqli_fetch_array($getlinkresult);
 $linkname = stripslashes($getlinkrow[LinkName]);
 $linkname = str_replace("\"", "&quot;", $linkname);
 $linkcode = stripslashes($getlinkrow[LinkCode]);
@@ -179,11 +179,11 @@ echo "<input type=\"submit\" class=\"button\" value=\"Add\" name=\"submit\">";
 else if ($mode == "Delete")
 {
 $getlinkquery = "SELECT LinkName FROM " .$DB_Prefix ."_links WHERE ID='$linkid'";
-$getlinkresult = mysql_query($getlinkquery, $dblink) or die ("Could not show links. Try again later.");
-$getlinknum = mysql_num_rows($getlinkresult);
+$getlinkresult = mysqli_query($dblink, $getlinkquery) or die ("Could not show links. Try again later.");
+$getlinknum = mysqli_num_rows($getlinkresult);
 if ($getlinknum == 1)
 {
-$getlinkrow = mysql_fetch_row($getlinkresult);
+$getlinkrow = mysqli_fetch_row($getlinkresult);
 $linkname = stripslashes($getlinkrow[0]);
 }
 ?>
@@ -226,19 +226,19 @@ $setpg_upper = "Web Links";
 if ($submit == "Activate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='Yes' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 if ($submit == "Deactivate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='No' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 
 $getquery = "SELECT ID, Active FROM " .$DB_Prefix ."_pages WHERE PageName='$setpg_lower' AND PageType='optional'";
-$getresult = mysql_query($getquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($getresult) == 1)
+$getresult = mysqli_query($dblink, $getquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($getresult) == 1)
 {
-$getrow = mysql_fetch_row($getresult);
+$getrow = mysqli_fetch_row($getresult);
 $pgid = $getrow[0];
 $setactive = $getrow[1];
 }
@@ -265,14 +265,14 @@ Add text links, banners or buttons from other sites onto your links page.
 <td valign="middle" align="center">
 <?php
 $getlinkquery = "SELECT ID, LinkName FROM " .$DB_Prefix ."_links ORDER BY LinkOrder, LinkName";
-$getlinkresult = mysql_query($getlinkquery, $dblink) or die ("Could not show links. Try again later.");
-$getlinknum = mysql_num_rows($getlinkresult);
+$getlinkresult = mysqli_query($dblink, $getlinkquery) or die ("Could not show links. Try again later.");
+$getlinknum = mysqli_num_rows($getlinkresult);
 if ($getlinknum == 0)
 echo "No Links Listed.";
 else
 {
 echo "<select size=\"1\" name=\"linkid\">";
-for ($getlinkcount = 1; $getlinkrow = mysql_fetch_row($getlinkresult); ++$getlinkcount)
+for ($getlinkcount = 1; $getlinkrow = mysqli_fetch_row($getlinkresult); ++$getlinkcount)
 {
 $display = stripslashes($getlinkrow[1]);
 echo "<option value=\"$getlinkrow[0]\">$display</option>";

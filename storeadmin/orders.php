@@ -6,7 +6,7 @@ if ($mode == "update")
 $packing_address = addslash_mq($packing_address);
 $updquery = "UPDATE " .$DB_Prefix ."_vars SET InvLogo='$packing_logo', Address='$packing_address', ";
 $updquery .= "Phone='$packing_phone', Fax='$packing_fax', Payments='$payments' WHERE ID='1'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 if ($ret == "catalog")
 {
 @header ("location: catalog.php");
@@ -46,10 +46,10 @@ $linkinfo .= "&ws=$ws";
 
 // Get currency
 $varquery = "SELECT Currency FROM " .$DB_Prefix ."_vars";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select your system variables. Try again later.");
-if (mysql_num_rows($varresult) == 1)
+$varresult = mysqli_query($dblink,$varquery) or die ("Unable to select your system variables. Try again later.");
+if (mysqli_num_rows($varresult) == 1)
 {
-$varrow = mysql_fetch_row($varresult);
+$varrow = mysqli_fetch_row($varresult);
 $Currency="$varrow[0]";
 }
 
@@ -64,8 +64,8 @@ else
 $chkoquery .= "WHERE OrderNumber='$order_id'";
 if ($dbid)
 $chkoquery .= "AND ID<>'$dbid'";
-$chkoresult = mysql_query($chkoquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($chkoresult) == 0)
+$chkoresult = mysqli_query($dblink, $chkoquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($chkoresult) == 0)
 {
 if ($orderdate != 0)
 {
@@ -115,7 +115,7 @@ $updquery .= "ShipAddress='$shipaddress', ShipState='$shipstate', ShipZip='$ship
 $updquery .= "ShipCountry='$shipcountry', ShipPhone='$shipphone', WholesaleID='$wholesaleid', ";
 $updquery .= "Voucher='$voucher', VoucherVal='$vval', Message='$message', Status='$ordstatus', ";
 $updquery .= "OrderDate='$order_date', ShipDate='$ship_date' WHERE OrderNumber='$ordid'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 // Add new record
 else if ($order_id)
@@ -129,7 +129,7 @@ $insquery .= "'$tax', '$shippingzone', '$invname', '$invcompany', '$invaddress',
 $insquery .= "'$invstate', '$invzip', '$invcountry', '$email', '$phone', '$fax', '$shipname', '$shipaddress', ";
 $insquery .= "'$shipcity', '$shipstate', '$shipzip', '$shipcountry', '$shipphone', '$wholesaleid', '$extra', ";
 $insquery .= "'$voucher', '$vval', '$message', '$ordstatus', '$ship_date')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 $ordid = $order_id;
 }
 // Update items
@@ -146,22 +146,22 @@ if (!$saleid[$i])
 {
 $chkquery = "SELECT ID FROM " .$DB_Prefix ."_sales WHERE OrderNumber='$ordid' AND DateSold='$order_date' ";
 $chkquery .= "AND Item='$item[$i]' AND Price='$price[$i]' AND Units='$units[$i]' AND Quantity='$qty[$i]'";
-$chkresult = mysql_query($chkquery, $dblink) or die ("Unable to select. Try again later.");
-$chknum = mysql_num_rows($chkresult);
+$chkresult = mysqli_query($dblink, $chkquery) or die ("Unable to select. Try again later.");
+$chknum = mysqli_num_rows($chkresult);
 }
 
 // If sale id exists and delete is set, delete record
 if ($saleid[$i] AND $del[$i] == "yes")
 {
 $delquery = "DELETE FROM " .$DB_Prefix ."_sales WHERE ID='$saleid[$i]'";
-$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 }
 // Else if sale id exists, update record
 else if ($saleid[$i])
 {
 $updquery = "UPDATE " .$DB_Prefix ."_sales SET Quantity='$qty[$i]', Item='$item[$i]', Price='$price[$i]', Units='$units[$i]', ";
 $updquery .= "DateSold='$order_date', OrderNumber='$ordid' WHERE ID='$saleid[$i]'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 $subtotal = $subtotal + ($price[$i] * $qty[$i]);
 }
 // Else add record
@@ -169,7 +169,7 @@ else if ($chknum == 0)
 {
 $insquery = "INSERT INTO " .$DB_Prefix ."_sales (Quantity, Item, Price, Units, DateSold, OrderNumber) ";
 $insquery .= "VALUES ('$qty[$i]', '$item[$i]', '$price[$i]', '$units[$i]', '$order_date', '$ordid')";
-$insresult = mysql_query($insquery, $dblink) or die("Unable to add. Please try again later.");
+$insresult = mysqli_query($dblink, $insquery) or die("Unable to add. Please try again later.");
 $subtotal = $subtotal + ($price[$i] * $qty[$i]);
 }
 }
@@ -179,7 +179,7 @@ $subtotal = number_format($subtotal, 2, '.', '');
 $total = $subtotal - $discount - $voucherval + $tax + $shipping;
 $total = number_format($total, 2, '.', '');
 $totquery = "UPDATE " .$DB_Prefix ."_orders SET Subtotal='$subtotal', Total='$total' WHERE OrderNumber='$ordid'";
-$totresult = mysql_query($totquery, $dblink) or die("Unable to update. Please try again later.");
+$totresult = mysqli_query($dblink, $totquery) or die("Unable to update. Please try again later.");
 }
 }
 
@@ -187,9 +187,9 @@ $totresult = mysql_query($totquery, $dblink) or die("Unable to update. Please tr
 if ($submit == "Yes" AND $ordid)
 {
 $delquery = "DELETE FROM " .$DB_Prefix ."_orders WHERE OrderNumber='$ordid'";
-$delresult = mysql_query($delquery, $dblink) or die("Unable to delete. Please try again later.");
+$delresult = mysqli_query($dblink, $delquery) or die("Unable to delete. Please try again later.");
 $delsquery = "DELETE FROM " .$DB_Prefix ."_sales WHERE OrderNumber='$ordid'";
-$delsresult = mysql_query($delsquery, $dblink) or die("Unable to delete. Please try again later.");
+$delsresult = mysqli_query($dblink, $delsquery) or die("Unable to delete. Please try again later.");
 }
 
 // Show check delete form
@@ -238,8 +238,8 @@ else if (($mode == "updord" AND $ordid) OR $mode == "Add New Order")
 if ($ordid)
 {
 $ordquery = "SELECT * FROM " .$DB_Prefix ."_orders WHERE OrderNumber='$ordid'";
-$ordresult = mysql_query($ordquery, $dblink) or die ("Unable to view sales.");
-$ordrow = mysql_fetch_array($ordresult);
+$ordresult = mysqli_query($dblink, $ordquery) or die ("Unable to view sales.");
+$ordrow = mysqli_fetch_array($ordresult);
 if ($ordrow[OrderDate] > 0)
 {
 $splitdate = explode("-","$ordrow[OrderDate]");
@@ -447,13 +447,13 @@ $salenum = 0;
 if ($ordid)
 {
 $salequery = "SELECT * FROM " .$DB_Prefix ."_sales WHERE OrderNumber='$ordid'";
-$saleresult = mysql_query($salequery, $dblink) or die ("Unable to select. Try again later.");
-$salenum = mysql_num_rows($saleresult);
+$saleresult = mysqli_query($dblink, $salequery) or die ("Unable to select. Try again later.");
+$salenum = mysqli_num_rows($saleresult);
 }
 
 if ($salenum > 0)
 {
-for ($sr=1; $salerow = mysql_fetch_array($saleresult); ++$sr)
+for ($sr=1; $salerow = mysqli_fetch_array($saleresult); ++$sr)
 {
 echo "<tr>";
 echo "<td>";
@@ -646,12 +646,12 @@ $totalsalesquery = $salesquery;
 
 // Total number of records in this particular page
 $salesquery .= " LIMIT $offset, $los";
-$salesresult = mysql_query($salesquery, $dblink) or die ("Unable to view orders.");
-$salesnum = mysql_num_rows($salesresult);
+$salesresult = mysqli_query($dblink, $salesquery) or die ("Unable to view orders.");
+$salesnum = mysqli_num_rows($salesresult);
 
 // Total records altogether
-$totalsalesresult = mysql_query($totalsalesquery, $dblink) or die ("Unable to view orders.");
-$totalsalesnum = mysql_num_rows($totalsalesresult);
+$totalsalesresult = mysqli_query($dblink, $totalsalesquery) or die ("Unable to view orders.");
+$totalsalesnum = mysqli_num_rows($totalsalesresult);
 
 // Display Page Numbers on page
 $offset = ($pg-1)*$los;
@@ -744,10 +744,10 @@ echo "<p align=\"center\" class=\"fieldname\">";
 if ($ws)
 {
 $wsquery = "SELECT Company FROM " .$DB_Prefix ."_wholesale WHERE ID='$ws'";
-$wsresult = mysql_query($wsquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($wsresult) == 1)
+$wsresult = mysqli_query($dblink, $wsquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($wsresult) == 1)
 {
-$wsrow = mysql_fetch_row($wsresult);
+$wsrow = mysqli_fetch_row($wsresult);
 echo "Wholesale Orders for " .stripslashes($wsrow[0]);
 }
 else
@@ -768,7 +768,7 @@ echo "</p>";
 </tr>
 
 <?php
-for ($i = 1; $salesrow = mysql_fetch_array($salesresult); ++$i)
+for ($i = 1; $salesrow = mysqli_fetch_array($salesresult); ++$i)
 {
 $splitdate = explode("-","$salesrow[OrderDate]");
 $orderdate = date("n/j/y", mktime(0,0,0,$splitdate[1],$splitdate[2],$splitdate[0]));
@@ -836,8 +836,8 @@ echo "<input type=\"hidden\" value=\"$pg\" name=\"pg\">";
 else if ($mode == "Update Details")
 {
 $packquery = "SELECT InvLogo, Address, Phone, Fax, Payments FROM " .$DB_Prefix ."_vars WHERE ID='1'";
-$packresult = mysql_query($packquery, $dblink) or die ("Unable to select. Try again later.");
-$packrow = mysql_fetch_array($packresult);
+$packresult = mysqli_query($dblink, $packquery) or die ("Unable to select. Try again later.");
+$packrow = mysqli_fetch_array($packresult);
 $pack_logo = $packrow[InvLogo];
 $pack_address = stripslashes($packrow[Address]);
 $pack_phone = $packrow[Phone];
@@ -917,12 +917,12 @@ $setpg_upper = ucfirst($setpg_lower);
 if ($submit == "Activate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='Yes' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 if ($submit == "Deactivate $setpg_upper Page")
 {
 $updquery = "UPDATE " .$DB_Prefix ."_pages SET Active='No' WHERE PageName='$setpg_lower' AND PageType='optional'";
-$updresult = mysql_query($updquery, $dblink) or die("Unable to update. Please try again later.");
+$updresult = mysqli_query($dblink, $updquery) or die("Unable to update. Please try again later.");
 }
 ?>
 
@@ -1074,10 +1074,10 @@ Display Per Page:
 
 <?php
 $getquery = "SELECT ID, Active FROM " .$DB_Prefix ."_pages WHERE PageName='$setpg_lower' AND PageType='optional'";
-$getresult = mysql_query($getquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($getresult) == 1)
+$getresult = mysqli_query($dblink, $getquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($getresult) == 1)
 {
-$getrow = mysql_fetch_row($getresult);
+$getrow = mysqli_fetch_row($getresult);
 $pgid = $getrow[0];
 $setactive = $getrow[1];
 }

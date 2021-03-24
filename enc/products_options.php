@@ -61,12 +61,12 @@ $attributeinfo = $attributename;
 if ($optcount == 1)
 {
 $attquery = "SELECT Quantity FROM " .$DB_Prefix ."_inventory WHERE ProductID = '$product_id' AND Attribute = '$attribute[0]'";
-$attresult = mysql_query($attquery, $dblink) or die ("Unable to access database.");
-$attnum = mysql_num_rows($attresult);
+$attresult = mysqli_query($dblink, $attquery) or die ("Unable to access database.");
+$attnum = mysqli_num_rows($attresult);
 if ($attnum == 1)
 {
 $show_item_inv = "no";
-$attrow = mysql_fetch_array($attresult);
+$attrow = mysqli_fetch_array($attresult);
 if ($attrow[0] <= $inventorylimit)
 {
 if ($attrow[0] > 0)

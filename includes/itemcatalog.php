@@ -11,10 +11,10 @@ include("open.php");
 
 $varquery = "SELECT OrderOfProduct, Currency, SiteName, ImageWidth, ImageHeight, ";
 $varquery .= "ThumbnailDir, LgImageDir FROM " .$DB_Prefix ."_vars WHERE ID=1";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($varresult) == 1)
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($varresult) == 1)
 {
-$varrow = mysql_fetch_row($varresult);
+$varrow = mysqli_fetch_row($varresult);
 $orderby = $varrow[0];
 $currency = $varrow[1];
 $sitename = stripslashes($varrow[2]);
@@ -31,8 +31,8 @@ $itemquery = "SELECT * FROM " .$DB_Prefix ."_items WHERE Active = 'Yes' AND OutO
 $itemquery .= "AND (Inventory IS NULL OR Inventory > 0)";
 if ($orderby)
 $itemquery .= " ORDER BY $orderby";
-$itemresult = mysql_query($itemquery, $dblink) or die ("Unable to select. Try again later.");
-if (mysql_num_rows($itemresult) == 0)
+$itemresult = mysqli_query($dblink, $itemquery) or die ("Unable to select. Try again later.");
+if (mysqli_num_rows($itemresult) == 0)
 echo "<p align=\"center\">Sorry, no records are found.</p>";
 else
 {
@@ -46,7 +46,7 @@ echo "<td nowrap>Each</td>";
 echo "<td>Total</td>";
 echo "</tr>";
 
-while ($itemrow = mysql_fetch_array($itemresult))
+while ($itemrow = mysqli_fetch_array($itemresult))
 {
 
 // Get image
@@ -107,9 +107,9 @@ else
 $optquery = "SELECT * FROM " .$DB_Prefix ."_options WHERE ItemID='$itemrow[ID]' AND Active='Yes' ";
 $optquery .= "AND Type != 'Memo Field' AND Type != 'Text Box' ORDER BY OptionNum, Name";
 }
-$optresult = mysql_query($optquery, $dblink) or die ("Unable to select options. Try again later.");
-$optnum = mysql_num_rows($optresult);
-for ($or=1; $optrow = mysql_fetch_array($optresult); ++$or)
+$optresult = mysqli_query($dblink, $optquery) or die ("Unable to select options. Try again later.");
+$optnum = mysqli_num_rows($optresult);
+for ($or=1; $optrow = mysqli_fetch_array($optresult); ++$or)
 {
 $attlist = explode("~", $optrow[Attributes]);
 $showopts .= "<br>$optrow[Name]: ";
@@ -133,10 +133,10 @@ $chkatts = "";
 $chkquery = "SELECT Attributes FROM " .$DB_Prefix ."_options WHERE ItemID='$itemrow[ID]' AND Active='Yes' ";
 $chkquery .= "AND Attributes LIKE '%:%' AND (Type='Drop Down' OR Type='Radio Button') ";
 $chkquery .= "AND OptionNum = '1'";
-$chkresult = mysql_query($chkquery, $dblink) or die ("Unable to select options. Try again later.");
-if (mysql_num_rows($chkresult) == 1 AND $splitoptions == "yes")
+$chkresult = mysqli_query($dblink, $chkquery) or die ("Unable to select options. Try again later.");
+if (mysqli_num_rows($chkresult) == 1 AND $splitoptions == "yes")
 {
-$chkrow = mysql_fetch_array($chkresult);
+$chkrow = mysqli_fetch_array($chkresult);
 $chkatts = explode("~", $chkrow[0]);
 $loopend = count($chkatts);
 }
@@ -178,8 +178,8 @@ echo "</table>";
 // Create Order Form
 $varquery = "SELECT SiteName, URL, AdminEmail, InvLogo, Address, Phone, ";
 $varquery .= "Fax, Payments FROM " .$DB_Prefix ."_vars WHERE ID='1'";
-$varresult = mysql_query($varquery, $dblink) or die ("Unable to select. Try again later.");
-$varrow = mysql_fetch_array($varresult);
+$varresult = mysqli_query($dblink, $varquery) or die ("Unable to select. Try again later.");
+$varrow = mysqli_fetch_array($varresult);
 if (substr($varrow[InvLogo], 0, 7) == "http://")
 $mylogo = $varrow[InvLogo];
 else

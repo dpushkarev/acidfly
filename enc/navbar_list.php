@@ -12,16 +12,16 @@ echo "<a href=\"$Catalog_Page\" class=\"drilldown\">$navlisttitle</a> &gt; ";
 if ($category)
 {
 $catquery = "SELECT Category, Parent FROM " .$DB_Prefix ."_categories WHERE ID='$category'";
-$catresult = mysql_query($catquery, $dblink) or die ("Unable to select. Try again later.");
-$catrow = mysql_fetch_row($catresult);
+$catresult = mysqli_query($dblink, $catquery) or die ("Unable to select. Try again later.");
+$catrow = mysqli_fetch_row($catresult);
 $category_link = "$catrow[0]";
 
 // Check to see if a parent exists
 if ($catrow[1] > 0)
 {
 $parquery = "SELECT Category, Parent, ID FROM " .$DB_Prefix ."_categories WHERE ID='$catrow[1]'";
-$parresult = mysql_query($parquery, $dblink) or die ("Unable to select. Try again later.");
-$parrow = mysql_fetch_row($parresult);
+$parresult = mysqli_query($dblink, $parquery) or die ("Unable to select. Try again later.");
+$parrow = mysqli_fetch_row($parresult);
 $parlink = "$Catalog_Page?category=$parrow[2]";
 $parent_link = "<a href=\"$parlink\" class=\"drilldown\">$parrow[0]</a>";
 
@@ -29,8 +29,8 @@ $parent_link = "<a href=\"$parlink\" class=\"drilldown\">$parrow[0]</a>";
 if ($parrow[1] > 0)
 {
 $gparquery = "SELECT Category, Parent, ID FROM " .$DB_Prefix ."_categories WHERE ID='$parrow[1]'";
-$gparresult = mysql_query($gparquery, $dblink) or die ("Unable to select. Try again later.");
-$gparrow = mysql_fetch_row($gparresult);
+$gparresult = mysqli_query($dblink, $gparquery) or die ("Unable to select. Try again later.");
+$gparrow = mysqli_fetch_row($gparresult);
 $gparlink = "$Catalog_Page?category=$gparrow[2]";
 $grandparent_link = "<a href=\"$gparlink\" class=\"drilldown\">$gparrow[0]</a>";
 }
