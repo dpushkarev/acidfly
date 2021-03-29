@@ -1,11 +1,12 @@
 <?php
+$config = include 'db_config.php';
 // ONLY ADJUST THE INFORMATION WITHIN QUOTES BELOW:
-$Host_Name = getenv('DB_HOST'); // The name of your web server database host
-$DB_Name = "acidfly_database2"; // The name of your database
-$DB_User_Name = "root"; // The name of your database user
-$DB_Password = "root"; // The name of your database password
+$Host_Name = $config['db_host']; // The name of your web server database host
+$DB_Name = $config['db_name']; // The name of your database
+$DB_User_Name = $config['db_user']; // The name of your database user
+$DB_Password = $config['db_password']; // The name of your database password
 $DB_Prefix = "opc"; // The prefix of your database tables (ie. opc_)
-$Home_Path = "/projects/php/acidfly"; // Your sites home path with no trailing slash
+$Home_Path = $_SERVER['DOCUMENT_ROOT']; // Your sites home path with no trailing slash
 $Admin_User = "admin"; // Your store administration user name
 $Master_Key = ""; // Your global administrator password if permissions will be set
 $Inc_Dir = "enc"; // The directory in which your PHP site include files reside
