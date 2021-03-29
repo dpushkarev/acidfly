@@ -9,13 +9,14 @@ if ($_POST[Submit] == "Send") {
     $starttime = date("YmdHis", mktime(date("H"), date("i") - 10, date("s"), date("m"), date("d"), date("Y")));
     $chquery = "SELECT * FROM " . $DB_Prefix . "_check WHERE CheckVar='$_POST[checkvar]' AND DateTime>'$starttime'";
     $chresult = mysqli_query($dblink, $chquery) or die ("Unable to select. Try again later.");
+
     if (!$_POST[yourname] OR !$_POST[youremail] OR !$_POST[yourcomments])
         echo "<p>Sorry, but either your name, email address or comments could not be determined. Please go back and try again.</p>";
     else if (!$Admin_Email OR $Admin_Email == "")
         echo "<p>Sorry, but this form could not be processed. Please contact site administrator.</p>";
     else if (substr_count($urlbase, $toemailcheck[1]) > 0)
         echo "<p>Sorry, but messages cannot be sent from this domain. Please try again.</p>";
-    else if (mysqli_num_rows($chresult) >= 1)
+    else if (mysqli_num_rows($chresult) > 1)
         echo "<p>Sorry, but the form has timed out or has already been processed.</p>";
     else {
         $stripname = stripslashes(stripbadstuff($yourname));
