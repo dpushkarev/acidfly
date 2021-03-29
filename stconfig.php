@@ -1,5 +1,5 @@
 <?php
-$config = include 'db_config.php';
+$config = include 'env.php';
 // ONLY ADJUST THE INFORMATION WITHIN QUOTES BELOW:
 $Host_Name = $config['db_host']; // The name of your web server database host
 $DB_Name = $config['db_name']; // The name of your database
@@ -55,11 +55,11 @@ mysqli_select_db($dblink, $DB_Name) or die("Unable to select database");
 
 // Get variables
 if (!isset($show_setup_config)) {
+    $urldir = "http://" . $config['domain'];
     $urlquery = "SELECT URL, PageExt FROM " . $DB_Prefix . "_vars";
     $urlresult = mysqli_query($dblink, $urlquery) or die ("Unable to select vars. Try again later.");
     $urlrow = mysqli_fetch_row($urlresult);
     $urlbase = $urlrow[0];
-    $urldir = "http://" . $urlbase;
     if ($urlrow[1])
         $pageext = $urlrow[1];
     else
