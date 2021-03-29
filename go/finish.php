@@ -11,7 +11,7 @@ $invlimit = $varrow[2];
 $malscart = $varrow[1];
 
 // LOOP THROUGH CART FIELDS
-while (list($fieldname, $fieldvalue) = each($_GET)) {
+foreach ($_GET as $fieldname => $fieldvalue) {
     if (is_array($fieldvalue)) {
         for ($f = 0; $f < count($fieldvalue); ++$f) {
             $finish_msg .= "$$fieldname = \"$fieldvalue[$f]\"\r\n";

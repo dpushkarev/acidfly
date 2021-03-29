@@ -23,7 +23,7 @@ $die_if_words = array("<?", "?>", "<script", "</script>", "javascript:", "docume
 $remove_if_words = array("to:", "cc:", "|", ")", "(", ";");
 $curdr = strtolower(str_replace("/", "", dirname($_SERVER[PHP_SELF])));
 if (empty($curdr) OR substr($curdr, -5) == "pages" OR substr($curdr, -2) == "go") {
-    while (list($fieldname, $fieldvalue) = each($_REQUEST)) {
+    foreach ($_REQUEST as $fieldname => $fieldvalue) {
         for ($v = 0; $v < count($die_if_words); ++$v) {
             if (substr_count($fieldvalue, $die_if_words[$v]) > 0)
                 die("Invalid Input - Script Characters Not Allowable Inputs");

@@ -98,7 +98,7 @@ if ($pgid AND $del == "Yes") {
 }
 
 if ($addnew == "yes" AND $pagename) {
-    $pagename = ereg_replace("[^[:alnum:]_-]", "", $pagename);
+    $pagename = preg_replace("/[^[:alnum:]_-]/", "", $pagename);
     $source_info = "<script language=\"php\">\r\n";
     $source_info .= "require_once(\"../stconfig.php\");\r\n";
     $source_info .= "require(\"../$" . "Inc_Dir/openinfo.php\");\r\n";
@@ -149,7 +149,7 @@ if ($addnew == "yes" AND $pagename) {
 }
 
 if ($update == "yes" AND $pagename) {
-    $pagename = ereg_replace("[^[:alnum:]_-]", "", $pagename);
+    $pagename = preg_replace("/[^[:alnum:]_-]/", "", $pagename);
     if ($pagetitle)
         $addpagetitle = addslash_mq($pagetitle);
     else

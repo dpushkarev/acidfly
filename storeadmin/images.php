@@ -156,7 +156,7 @@ if ($imagedir AND $_FILES['addimg'] AND $fcn == "add") {
         $uploadmsg = "The file $abs_img could not be uploaded. Please make sure that the file is an image and that it is under 100 KB in size.";
     else {
         $abs_img = $_FILES['addimg']['name'];
-        $abs_img = ereg_replace("[^[:alnum:].-_]", "", $abs_img);
+        $abs_img = preg_replace("/[^[:alnum:].-_]/", "", $abs_img);
         $abs_img = $absdir . "/" . $abs_img;
         $rel_img = "../" . $abs_img;
 
@@ -284,8 +284,9 @@ else if ($imagedir) {
                     echo "<tr><td align=\"center\" colspan=\"3\"><i>No Images Found</i></td></tr>";
                 else {
                     asort($filelist);
-// while (list ($key, $val) = each ($filelist)) 
-                    for ($fl = 1; list ($key, $val) = each($filelist); ++$fl) {
+// while (list ($key, $val) = each ($filelist))
+                    $fl = 1;
+                    foreach ($filelist as $key => $val) {
                         if (($fl + 1) % 2 == 0)
                             echo "<tr>";
                         echo "<td align=\"left\">";
@@ -293,6 +294,8 @@ else if ($imagedir) {
                         echo "</td>";
                         if ($fl % 2 == 0)
                             echo "</tr>";
+
+                        $fl++;
                     }
                 }
                 ?>

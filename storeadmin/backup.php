@@ -36,8 +36,8 @@ if ($submit == "Create Database Backup") {
             $showfinishedtables .= "<span class=\"linecolor\">$tablerow[0] Backed Up</span><br>";
             $sql_data .= "# --------------------------------\r\n\r\n";
             $sql_data .= "# TABLE - " . strtoupper($tablerow[0]) . "\r\n\r\n";
-            $fields = mysql_list_fields("$DB_Name", "$tablerow[0]", $dblink);
-            $columns = mysqli_num_fields($fields);
+//            $fields = mysql_list_fields("$DB_Name", "$tablerow[0]", $dblink);
+//            $columns = mysqli_num_fields($fields);
             $showquery = "SHOW COLUMNS FROM $tablerow[0]";
             $showresult = mysqli_query($dblink, $showquery) or die ("Unable to select. Try again later.");
             $shownum = mysqli_num_rows($showresult);
