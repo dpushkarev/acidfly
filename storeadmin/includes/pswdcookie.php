@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 require_once("../stconfig.php");
 // First check to make sure old info is correct
 $err_msg = "<p align=\"center\">Sorry, but your user name or password was not correct. Please <a href=\"index.php$mastaddl\">go back</a> and try again.</p>";
@@ -35,5 +35,4 @@ $gotosize = strlen($gotolink);
 die("<p align=\"center\">Your password has been updated. <a href=\"$gotolink\">Continue</a>.</p>");
 }
 }
-mysqli_close();
-</script>
+mysqli_close(); ?>

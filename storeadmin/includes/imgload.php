@@ -17,8 +17,7 @@ function setImg()
 {
 window.opener.document.$formsname.$fieldsname.value = document.ImgForm.nameofimg.value;
 window.close();
-}
-</script>";
+}</script>";
     }
 
 // Sets Load Directories

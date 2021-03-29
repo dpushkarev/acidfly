@@ -3,11 +3,11 @@
 <head>
     <title>Administration</title>
     <link rel="stylesheet" type="text/css" href="includes/style.css">
-    <script language="php">include("includes/htmlarea.php");</script>
+    <?php include("includes/htmlarea.php"); ?>
 </head>
 
 <body onload="editor_generate('description');">
-<script language="php">$java = "description"; include("includes/htmlareabody.php");</script>
+<?php $java = "description"; include("includes/htmlareabody.php"); ?>
 <?php
 include("includes/open.php");
 include("includes/header.htm");

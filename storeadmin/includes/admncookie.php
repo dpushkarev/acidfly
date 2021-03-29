@@ -1,4 +1,4 @@
-<script language="php">
+<?php
 include_once("../stconfig.php");
 if (isset($_POST[adminuser]) AND isset($_POST[adminpass]))
 {
@@ -18,4 +18,4 @@ $gotosize = strlen($gotolink);
 @header("Connection: close");
 die("<p align=\"center\">You have been logged in. <a href=\"$gotolink\">Continue</a>.</p>");
 }
-</script>
+?>

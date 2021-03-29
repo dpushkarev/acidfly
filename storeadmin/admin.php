@@ -1,4 +1,4 @@
-<script language="php">include("includes/admncookie.php");</script>
+<?php include("includes/admncookie.php"); ?>
 <html>
 
 <head>

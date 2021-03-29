@@ -341,10 +341,9 @@ echo "<a href=\"weblinks.php?submit=Deactivate+Web+Links+Page\">Deactivate</a></
 }
 ?>
 
-<script language="php">
+<?php
 include("includes/links2.php");
-include("includes/footer.htm");
-</script>
+include("includes/footer.htm"); ?>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-<script language="php">
+<?php 
 include("includes/open.php");
 if ($admin_submit AND $itemid)
 {
@@ -12,19 +12,17 @@ $gotopage = "options.php?itemid=$itemid&itemname=$itemname";
 else if ($admin_submit == "Inventory")
 $gotopage = "related.php?itemid=$itemid&itemname=$itemname";
 header ("location: $gotopage");
-}
-
-</script>
+} ?>
 <html>
 
 <head>
     <title>Administration</title>
     <link rel="stylesheet" type="text/css" href="includes/style.css">
-    <script language="php">include("includes/htmlarea.php");</script>
+    <?php include("includes/htmlarea.php"); ?>
 </head>
 
 <body
-<script language="php">$java = "description"; include("includes/htmlareabody.php");</script>
+<?php $java = "description"; include("includes/htmlareabody.php"); ?>
 >
 <?php
 include("includes/header.htm");

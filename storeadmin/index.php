@@ -1,8 +1,7 @@
-<script language="php">
+<?php
 setcookie ("adminusr", "", 0, "/", "", 0);
 setcookie ("adminpswd", "", 0, "/", "", 0);
-setcookie ("adminmstr", "", 0, "/", "", 0);
-</script>
+setcookie ("adminmstr", "", 0, "/", "", 0); ?>
 <html>
 
 <head>

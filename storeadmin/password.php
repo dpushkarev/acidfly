@@ -1,4 +1,4 @@
-<script language="php">include("includes/pswdcookie.php");</script>
+<?php include("includes/pswdcookie.php"); ?>
 <html>
 
 <head>
@@ -7,11 +7,10 @@
 </head>
 
 <body>
-<script language="php">
+<?php 
 include("includes/open.php");
 include("includes/header.htm");
-include("includes/links.php");
-</script>
+include("includes/links.php"); ?>
 
 <form method="POST" action="password.php">
 <div align="center">
@@ -66,10 +65,9 @@ new password, then submit. Your new password will take effect immediately.</td>
 </div>
 </form>
 
-<script language="php">
+<?php 
 include("includes/links2.php");
-include("includes/footer.htm");
-</script>
+include("includes/footer.htm"); ?>
 </body>
 
 </html>

@@ -3,11 +3,11 @@
 <head>
     <title>Administration</title>
     <link rel="stylesheet" type="text/css" href="includes/style.css">
-    <script language="php">include("includes/htmlarea.php");</script>
+    <?php include("includes/htmlarea.php"); ?>
 </head>
 
 <body onload="editor_generate('content');">
-<script language="php">$java = "content"; include("includes/htmlareabody.php");</script>
+<?php $java = "content"; include("includes/htmlareabody.php"); ?>
 <?php
 include("includes/open.php");
 include("includes/header.htm");
@@ -99,11 +99,11 @@ if ($pgid AND $del == "Yes") {
 
 if ($addnew == "yes" AND $pagename) {
     $pagename = preg_replace("/[^[:alnum:]_-]/", "", $pagename);
-    $source_info = "<script language=\"php\">\r\n";
+    $source_info = "<?php\r\n";
     $source_info .= "require_once(\"../stconfig.php\");\r\n";
     $source_info .= "require(\"../$" . "Inc_Dir/openinfo.php\");\r\n";
     $source_info .= "require(\"../template/$" . "themename\");\r\n";
-    $source_info .= "</script>";
+    $source_info .= "?>";
     $destination_file = "../pages/$pagename.$pageext";
     if (!file_exists($destination_file)) {
         $upd_path = "$Home_Path/pages";

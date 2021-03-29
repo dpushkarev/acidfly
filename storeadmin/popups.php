@@ -3,10 +3,10 @@
 <head>
 <title>Administration</title>
 <link rel="stylesheet" type="text/css" href="includes/style.css">
-<script language="php">include("includes/htmlarea.php");</script>
+<?php include("includes/htmlarea.php"); ?>
 </head>
 
-<body<script language="php">$java = "popupcontent"; include("includes/htmlareabody.php");</script>>
+<body<?php $java = "popupcontent"; include("includes/htmlareabody.php"); ?>>
 <?php
 include("includes/open.php");
 include("includes/header.htm");

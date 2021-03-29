@@ -3,7 +3,7 @@
 <head>
 <title>Email</title>
 <meta name="robots" content="noindex,nofollow">
-<script language="php">
+<?php
 require_once("../stconfig.php");
 // Sets System Variables
 $varquery = "SELECT * FROM " .$DB_Prefix ."_vars";
@@ -20,8 +20,7 @@ else
 $themename = $varrow[Theme] ."/template.htm";
 }
 include("../$Inc_Dir/style.php");
-$starttime = date("YmdHis", mktime (date("H"),date("i")-10,date("s"),date("m"),date("d"),date("Y")));
-</script>
+$starttime = date("YmdHis", mktime (date("H"),date("i")-10,date("s"),date("m"),date("d"),date("Y"))); ?>
 </head>
 
 <body bgcolor="#FFFFFF" text="#000000" topmargin="0" leftmargin="0" bottommargin="0" rightmargin="0" marginheight="0" marginwidth="0">

@@ -3,11 +3,11 @@
 <head>
     <title>Administration</title>
     <link rel="stylesheet" type="text/css" href="includes/style.css">
-    <script language="php">include("includes/htmlarea.php");</script>
+    <?php include("includes/htmlarea.php"); ?>
 </head>
 
 <body
-<script language="php">$java = "description"; include("includes/htmlareabody.php");</script>
+<?php $java = "description"; include("includes/htmlareabody.php"); ?>
 >
 <?php
 include("includes/open.php");
@@ -308,10 +308,8 @@ if ($mode == "Add" OR $mode == "Edit") {
 }
 ?>
 
-<script language="php">
+<?php 
 include("includes/links2.php");
-include("includes/footer.htm");
-
-</script>
+include("includes/footer.htm"); ?>
 
 </html>

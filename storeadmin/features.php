@@ -121,11 +121,9 @@ $featnum = mysqli_num_rows($featresult);
     </div>
 </form>
 
-<script language="php">
+<?php
 include("includes/links2.php");
-include("includes/footer.htm");
-
-</script>
+include("includes/footer.htm"); ?>
 </body>
 
 </html>

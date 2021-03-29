@@ -1,6 +1,5 @@
-<script language="php">
-require_once("../stconfig.php");
-</script>
+<?php
+require_once("../stconfig.php"); ?>
 <html>
 
 <head>
